@@ -1,0 +1,55 @@
+\xpg@aux {}{vietnamese}
+\contentsline {chapter}{Lời mở đầu}{i}{chapter*.1}%
+\contentsline {chapter}{Đối tượng và phương pháp nghiên cứu}{ii}{chapter*.2}%
+\contentsline {chapter}{Danh mục viết tắt}{vii}{chapter*.4}%
+\contentsline {chapter}{\numberline {1}CƠ SỞ LÝ THUYẾT}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Bài toán nghiên cứu}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Ngẫu nhiên, đồng đều và độc lập}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Kiểm định Chi-square, Cramér's V và hiệu chỉnh đa kiểm định}{2}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Xích Markov và phụ thuộc theo thời gian}{2}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Tính chất Markov}{2}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Markov nhị phân cho sự xuất hiện của chữ số}{3}{subsection.1.4.2}%
+\contentsline {section}{\numberline {1.5}Các mô hình xác suất và tần suất cơ sở}{4}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Mô hình đồng đều}{4}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Tần suất mở rộng và cửa sổ trượt}{4}{subsection.1.5.2}%
+\contentsline {section}{\numberline {1.6}Nền tảng học máy cho bài toán dự báo}{4}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}Học có giám sát và đặc trưng trễ}{4}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.2}Random Forest}{5}{subsection.1.6.2}%
+\contentsline {subsection}{\numberline {1.6.3}Gradient Boosting}{5}{subsection.1.6.3}%
+\contentsline {subsection}{\numberline {1.6.4}XGBoost}{6}{subsection.1.6.4}%
+\contentsline {subsection}{\numberline {1.6.5}CatBoost}{6}{subsection.1.6.5}%
+\contentsline {section}{\numberline {1.7}Đánh giá dự báo xác suất}{6}{section.1.7}%
+\contentsline {subsection}{\numberline {1.7.1}Brier score và log loss}{6}{subsection.1.7.1}%
+\contentsline {subsection}{\numberline {1.7.2}Calibration và Top-$k$ recall}{7}{subsection.1.7.2}%
+\contentsline {section}{\numberline {1.8}Đánh giá chiến lược và lợi nhuận}{7}{section.1.8}%
+\contentsline {chapter}{\numberline {2}DỮ LIỆU VÀ QUY TRÌNH PHÂN TÍCH}{8}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Dữ liệu}{8}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Quy tắc trả thưởng và mục tiêu thực nghiệm}{8}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Quy trình}{8}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Chống rò rỉ thông tin}{9}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Tái lập}{9}{section.2.5}%
+\contentsline {chapter}{\numberline {3}KIỂM ĐỊNH TÍNH NGẪU NHIÊN}{10}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Thiết kế giả thuyết và hiệu chỉnh đa kiểm định}{10}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Phân phối chữ số và phân phối đuôi số}{10}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Độc lập giữa các vị trí}{11}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Phụ thuộc Markov và phụ thuộc theo độ trễ}{12}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Ổn định theo thời gian và trúng đồng thời}{13}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Kết luận P1}{15}{section.3.6}%
+\contentsline {chapter}{\numberline {4}MÔ HÌNH DỰ BÁO CHỮ SỐ}{16}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Biến mục tiêu và nguyên tắc đánh giá}{16}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Các mô hình}{16}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Kết quả định lượng}{16}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Diễn giải và giới hạn}{19}{section.4.4}%
+\contentsline {chapter}{\numberline {5}CHIẾN LƯỢC VÀ BACKTEST}{20}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Thiết kế chiến lược}{20}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Chia tập và chỉ số}{20}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Kết quả P3}{21}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Chiến lược giải Bảy theo $m$}{22}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Diễn giải}{23}{section.5.5}%
+\contentsline {chapter}{\numberline {6}KẾT QUẢ TỔNG HỢP VÀ THẢO LUẬN}{24}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Từ kiểm định đến dự báo}{24}{section.6.1}%
+\contentsline {section}{\numberline {6.2}So sánh mô hình}{24}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Ý nghĩa thực tiễn}{24}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Hạn chế}{24}{section.6.4}%
+\contentsline {chapter}{\numberline {7}KẾT LUẬN}{25}{chapter.7}%
+\contentsline {chapter}{TÀI LIỆU THAM KHẢO}{26}{chapter*.29}%

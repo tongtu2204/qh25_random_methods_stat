@@ -1,0 +1,26 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Phân phối chữ số theo vị trí trong toàn bộ dữ liệu.}}{11}{figure.caption.8}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Mức phụ thuộc giữa các vị trí chữ số.}}{12}{figure.caption.9}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Độ lệch của ma trận chuyển trạng thái Markov lag 1.}}{13}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Phụ thuộc theo độ trễ 1--30 ngày bằng Cramér's V.}}{13}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Kết quả kiểm định gộp trong phân tích ổn định theo thời gian.}}{14}{figure.caption.12}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Độ ổn định của các thống kê theo giai đoạn.}}{14}{figure.caption.13}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Tỷ lệ trúng đồng thời nhiều giải theo năm.}}{14}{figure.caption.14}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces So sánh Brier score trên validation.}}{17}{figure.caption.16}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Brier score theo mô hình.}}{18}{figure.caption.17}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Brier score theo vị trí chữ số.}}{18}{figure.caption.18}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Độ bao phủ Top-$k$ theo vị trí.}}{18}{figure.caption.19}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Đường calibration được dựng lại từ calibration.csv.}}{19}{figure.caption.20}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Phân phối thứ hạng chữ số thực tế.}}{19}{figure.caption.21}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Lợi nhuận tích lũy của các pool trên validation.}}{21}{figure.caption.23}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Lợi nhuận tích lũy của các pool trên final test.}}{21}{figure.caption.24}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Lợi nhuận tích lũy của chiến lược tập trung giải Bảy trên validation.}}{22}{figure.caption.25}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Lợi nhuận tích lũy của chiến lược tập trung giải Bảy trên final test.}}{22}{figure.caption.26}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Độ nhạy lợi nhuận theo số đuôi $m$ trên validation.}}{23}{figure.caption.27}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Độ nhạy lợi nhuận theo số đuôi $m$ trên final test.}}{23}{figure.caption.28}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }

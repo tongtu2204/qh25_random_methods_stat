@@ -1,7 +1,47 @@
-\chapter*{Nguồn dữ liệu và khả năng tái lập}\addcontentsline{toc}{chapter}{Nguồn dữ liệu và khả năng tái lập}
+\chapter*{Đối tượng và phương pháp nghiên cứu}\addcontentsline{toc}{chapter}{Đối tượng và phương pháp nghiên cứu}
 
-Nghiên cứu sử dụng dữ liệu kết quả xổ số miền Bắc được lưu trong kho mã KQXS, nhánh \texttt{lotery-update}. Mỗi ngày có 27 kết quả giải thưởng; các kết quả được chuẩn hóa thành chuỗi năm chữ số trước khi tạo các biến mục tiêu. Toàn bộ mã phân tích, cấu hình chia tập, bảng CSV và hình minh họa được tổ chức trong cùng kho mã để có thể tái chạy.
+\textbf{Đối tượng và phạm vi nghiên cứu}
 
-Quy trình tái lập gồm: kiểm tra và chuẩn hóa dữ liệu; tạo bảng mục tiêu theo ngày; chạy các script trong thư mục \texttt{experiments/p1\_statistical\_tests}, \texttt{experiments/p2\_models} và \texttt{experiments/p3\_strategies}; sau đó biên dịch thư mục báo cáo bằng XeLaTeX. Các mốc thời gian được cố định trước khi đánh giá: giai đoạn phát triển đến hết 2022, validation 2023--2024 và final test 2025--2026.
+Kết quả xổ số kiến thiết Miền Bắc, bao gồm toàn bộ các số trúng thưởng được công bố trong mỗi ngày quay số. 
+Giải thưởng và thể lệ trúng thưởng được thu thập đúng theo công bố của công ty xổ số kiến thiết.
 
-Báo cáo không xem việc quan sát thấy một sai lệch cục bộ là bằng chứng về tính không ngẫu nhiên của toàn bộ quá trình. Các kết luận được giới hạn trong dữ liệu, định nghĩa mục tiêu, quy tắc trả thưởng và các cấu hình đã kiểm thử.
+Dữ liệu được thu thập của xổ số kiến thiết Miền Bắc, do Miền Bắc sẽ chỉ có 1 kết quả duy nhất trong ngày, đảm bảo về tính toàn vẹn của thời gian (Miền Nam sẽ có nhiều kết quả trong ngày). Thời gian của kết quả đầy đủ từ năm 2007 đến hiện tại. 
+Trong đó, giai đoạn hết năm 2022 được sử dụng làm thông tin lịch sử cho quá 
+trình xây dựng mô hình. Giai đoạn 2023--2024 được sử dụng cho đánh giá và lựa 
+chọn chiến lược, trong khi giai đoạn 2025--2026 được giữ lại làm tập kiểm định 
+cuối cùng ngoài mẫu.
+
+Mỗi ngày quay số bao gồm toàn bộ 27 kết quả thuộc các hạng giải từ 
+giải đặc biệt đến giải bảy. Các kết quả được chuẩn hóa để phục vụ phân tích 
+theo từng vị trí chữ số và theo phần hậu tố của số trúng thưởng.
+	
+Tần suất quan sát là theo ngày. Thứ tự thời gian của dữ liệu được giữ 
+nguyên trong toàn bộ quá trình xây dựng và đánh giá mô hình; không thực hiện 
+chia ngẫu nhiên dữ liệu huấn luyện và kiểm định.
+	
+
+\textbf{Phương pháp nghiên cứu}
+
+\begin{itemize}
+	\item \textbf{Kiểm định tính ngẫu nhiên:} nghiên cứu phân tích phân phối chữ 
+	số, tính đồng đều, tính độc lập giữa các vị trí, sự phụ thuộc Markov, phụ 
+	thuộc theo độ trễ và mức độ ổn định của phân phối theo thời gian. Khi cần 
+	thiết, kích thước hiệu ứng và hiệu chỉnh cho nhiều phép kiểm định được xem xét 
+	song song với giá trị $p$.
+	
+	\item \textbf{Mô hình dự báo:} các phương pháp thống kê, mô hình xác 
+	suất và mô hình học máy được sử dụng để kiểm định tính ngẫu nhiên và đánh giá 
+	khả năng dự báo kết quả xổ số. Các phương pháp chính bao gồm kiểm định phân 
+	phối và tính độc lập, mô hình tần suất, Rolling Frequency, mô hình Markov, 
+	Random Forest, XGBoost và CatBoost.
+	
+	\item \textbf{Đánh giá mô hình:} hiệu quả dự báo được đánh giá bằng các thước 
+	đo xác suất và xếp hạng như Brier score, log-loss, calibration và khả năng 
+	thu hồi chữ số thực tế trong nhóm dự báo có xác suất cao.
+	
+	\item \textbf{Đánh giá chiến lược:} xác suất dự báo được chuyển thành các tập 
+	số ứng viên và chiến lược lựa chọn vé. Hiệu quả được đánh giá thông qua số lần 
+	trúng thưởng, tổng chi phí, tổng tiền thưởng, lợi nhuận tích lũy và tỷ suất 
+	hoàn vốn (ROI), đồng thời được so sánh với chiến lược ngẫu nhiên hoặc các 
+	đường cơ sở thích hợp.
+\end{itemize}

@@ -1,7 +1,17 @@
-\chapter*{Tóm tắt}\addcontentsline{toc}{chapter}{Tóm tắt}
+\chapter*{Lời mở đầu}\addcontentsline{toc}{chapter}{Lời mở đầu}
 
-Báo cáo đánh giá một cách có kiểm soát giả thuyết rằng kết quả xổ số miền Bắc có thể chứa tín hiệu đủ ổn định để dự báo chữ số hoặc tạo lợi nhuận. Bộ dữ liệu gồm 191.511 bản ghi giải thưởng trong 7.093 ngày từ 01/01/2007 đến 06/09/2026. Nghiên cứu được tổ chức thành ba phần: (i) kiểm định phân phối, độc lập vị trí, phụ thuộc Markov, phụ thuộc theo độ trễ và tính ổn định theo thời gian; (ii) so sánh các mô hình xác suất, Markov và học máy trên bài toán dự báo chữ số xuất hiện theo từng vị trí; (iii) đánh giá chiến lược tạo vé bằng walk-forward backtest, tách validation 2023--2024 khỏi final test 2025--2026.
+Xổ số kiến thiết là một ví dụ điển hình của quá trình ngẫu nhiên trong thực tế, 
+trong đó kết quả của mỗi kỳ quay về nguyên tắc được kỳ vọng là độc lập và không 
+thể dự đoán một cách có hệ thống từ các kết quả đã quan sát trong quá khứ. Tuy 
+nhiên, khi một lượng lớn dữ liệu lịch sử được tích lũy qua thời gian, một câu hỏi 
+tự nhiên được đặt ra là liệu các kết quả xổ số thực tế có thực sự thể hiện đầy đủ 
+các đặc trưng của một quá trình ngẫu nhiên hay vẫn tồn tại những sai lệch thống kê, 
+sự phụ thuộc theo thời gian hoặc các cấu trúc có thể khai thác được.
+Trên thế giới đã có những nghiên cứu và công bố về học thuyết xổ số, tuy nhiên không có 
 
-Sau hiệu chỉnh Benjamini--Hochberg, phần lớn các kiểm định không bác bỏ giả thuyết ngẫu nhiên; các khác biệt còn lại có quy mô nhỏ và không tạo thành tín hiệu dự báo ổn định. Mô hình Expanding Beta chỉ nhỉnh hơn Uniform rất ít trên final test (Brier 0,104579 so với 0,104589), trong khi mọi cấu hình chiến lược tạo vé được thử đều có ROI âm. Kết quả thực nghiệm vì vậy không ủng hộ việc diễn giải các tần suất lịch sử như một lợi thế dự báo hay một phương án đầu tư có kỳ vọng dương.
-
-\noindent\textbf{Từ khóa:} khai phá dữ liệu; kiểm định ngẫu nhiên; xổ số miền Bắc; Brier score; walk-forward backtest; hiệu chỉnh FDR.
+Xuất phát từ vấn đề trên, bài nghiên cứu này phân tích dữ liệu kết quả xổ số kiến thiết dựa trên các kiến thức của môn học Các phương pháp ngẫu nhiên và ứng dụng, đồng thời cũng áp dụng các mô hình máy học hiện đại. Mục tiêu của nghiên cứu là kiểm chứng giả thuyết bằng dữ liệu thực nghiệm. Nghiên cứu 
+hướng tới làm rõ ba câu hỏi chính: \textit{(i)} kết quả xổ số có phù hợp với các đặc trưng kỳ 
+vọng của một quá trình ngẫu nhiên hay không; \textit{(ii)} các mô hình xác suất và học máy có 
+khai thác được tín hiệu dự báo ổn định ngoài mẫu hay không; \textit{(iii)} và nếu tồn tại tín hiệu, 
+mức cải thiện đó có đủ để tạo ra một chiến lược có hiệu quả kinh tế sau khi tính 
+đầy đủ chi phí tham gia và cơ cấu giải thưởng hay không.

@@ -1,43 +1,72 @@
 % !TeX program = xelatex
-% Academic report template adapted from the supplied MauLuanAn template.
-\documentclass[a4paper,12pt,oneside]{book}
+% !TeX encoding = UTF-8
+\documentclass[a4paper,reqno,oneside]{book}
 
-% Unicode/Vietnamese typesetting with XeLaTeX.
+% ==================== XeLaTeX / Unicode ====================
 \usepackage{fontspec}
 \usepackage{polyglossia}
 \setdefaultlanguage{vietnamese}
-\setmainfont{DejaVu Serif}
-\setsansfont{DejaVu Sans}
-\setmonofont{DejaVu Sans Mono}
-
-% The supplied thesis template uses 13pt body text and margins
-% left/right/top/bottom = 3.5/2/3.5/3 cm.
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
 \usepackage{scrextend}
 \changefontsizes{13pt}
-\usepackage[left=3.5cm,right=2cm,top=3.5cm,bottom=3cm]{geometry}
 
-\usepackage{amsmath,amssymb,mathtools}
-\usepackage{graphicx,booktabs,longtable,tabularx,array,multirow}
-\usepackage{float,placeins,xcolor,enumitem,caption}
-\usepackage{url,xurl,hyperref}
-\usepackage{fancyhdr,titlesec,indentfirst,fancybox}
+% ==================== Gói dùng chung ====================
+\usepackage{amsmath,amssymb,mathtools,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs,longtable,array,tabularx,multirow}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{url}
+\usepackage{xurl}
+\usepackage{hyperref}
+\urlstyle{rm}
+\renewcommand{\UrlFont}{\rmfamily}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{fancybox}
+\usepackage{indentfirst}
 
+\DeclareRobustCommand{\refcite}[2]{\texorpdfstring{\hyperlink{bib:#2}{[#1]}}{[#1]}}
+
+% ==================== Thiết lập bảng ====================
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{3pt}
+\setlength{\arrayrulewidth}{0.4pt}
+
+% ==================== Khổ trang / typography ====================
+\usepackage[left=3.5cm,right=2cm,top=2.0cm,bottom=2.0cm]{geometry}
 \setlength{\parindent}{1.2cm}
 \setlength{\parskip}{0pt}
-\emergencystretch=3em
+\linespread{1.30}\selectfont
 \setlist[itemize]{leftmargin=1.6em,itemsep=2pt,topsep=3pt}
-\setlist[enumerate]{leftmargin=1.8em,itemsep=2pt,topsep=3pt}
-\captionsetup{font=normalsize,labelfont=bf,labelsep=period,justification=centering,skip=6pt}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=2pt,topsep=3pt}
+\captionsetup{font=normalsize,labelfont=bf,labelsep=period,justification=centering,singlelinecheck=true,skip=6pt}
 \hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue!55!black}
 
-% Chapter/section typography follows the supplied thesis template.
+\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.90}
+\renewcommand{\bottomfraction}{0.80}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.80}
+
+% ==================== Định dạng chương/mục ====================
 \titleformat{\chapter}[display]
-  {\normalfont\Large\bfseries\centering}
-  {\chaptertitlename\ \thechapter}{5pt}{\Large}
-\titlespacing*{\chapter}{0pt}{10pt}{30pt}
-\titleformat*{\section}{\bfseries\fontsize{13}{14}\selectfont}
-\titleformat*{\subsection}{\bfseries\fontsize{13}{14}\selectfont}
-\titleformat*{\subsubsection}{\bfseries\fontsize{13}{14}\selectfont}
+{\normalfont\Large\bfseries\centering}
+{\chaptertitlename\ \thechapter}{0pt}{\Large}
+\titlespacing*{\chapter}{0pt}{0pt}{15pt}
+\titleformat*{\section}{\bfseries\fontsize{13}{16}\selectfont}
+\titleformat*{\subsection}{\bfseries\fontsize{13}{16}\selectfont}
+\titleformat*{\subsubsection}{\bfseries\fontsize{13}{16}\selectfont}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
 
 \renewcommand{\chaptername}{CHƯƠNG}
 \renewcommand{\contentsname}{MỤC LỤC}
@@ -47,79 +76,77 @@
 \renewcommand{\tablename}{Bảng}
 \numberwithin{equation}{chapter}
 
-% Page-number style adapted from the supplied thesis template: centered footer,
-% no running header and no decorative rules.
+% ==================== Header / footer ====================
 \fancypagestyle{myplain}{%
-  \fancyhf{}
-  \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0pt}
-  \fancyfoot[C]{\thepage}
-}
+	\fancyhf{}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0pt}
+	\fancyfoot[C]{\thepage}}
 \pagestyle{myplain}
 \makeatletter
 \let\ps@plain\ps@myplain
 \makeatother
 
-\newcommand{\safeimage}[2]{%
-  \IfFileExists{#1}{%
-    \begin{figure}[H]\centering
-      \includegraphics[width=\linewidth]{#1}
-      \caption{#2}
-    \end{figure}%
-  }{%
-    \begin{figure}[H]\centering
-      \fbox{\parbox{0.85\linewidth}{\centering Chưa có tệp hình: \texttt{#1}}}
-      \caption{#2}
-    \end{figure}%
-  }%
-}
+% ==================== Thông tin bìa ====================
+\newcommand{\UniversityName}{ĐẠI HỌC QUỐC GIA HÀ NỘI}
+\newcommand{\SchoolName}{TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN}
+
+\newcommand{\UniversityLogo}{hus.jpg}
+
+\newcommand{\Major}{KHOA HỌC DỮ LIỆU - THẠC SĨ QH2025}
+\newcommand{\CourseName}{CÁC PHƯƠNG PHÁP NGẪU NHIÊN VÀ ỨNG DỤNG}
+\newcommand{\SupervisorName}{TS. TẠ CÔNG SƠN}
+\newcommand{\StudentName}{TỐNG VIỆT TÚ - 25007845}
+\newcommand{\ReportYear}{09/2026}
+\newcommand{\ReportTitle}{KIỂM ĐỊNH TÍNH NGẪU NHIÊN \\[0.25cm] VÀ DỰ BÁO XÁC SUẤT XỔ SỐ KIẾN THIẾT}
+
+\newcommand{\paperfig}[3][0.82\linewidth]{%
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=#1,height=0.62\textheight,keepaspectratio]{#2}
+		\caption{#3}
+\end{figure}}
 
 \begin{document}
+	
+	% ==================== BÌA ====================
+	\begin{titlepage}
+		\thispagestyle{empty}
+		\thisfancypage{\setlength{\fboxrule}{2pt}\doublebox}{}
+		\begin{center}
+			\vspace*{0.03cm}
+			
+			{\fontsize{15}{18}\selectfont \UniversityName\\}
+			{\fontsize{15}{18}\selectfont\bfseries \SchoolName\par}
+			
+			\vspace*{0.8cm}
+			
+			\includegraphics[width=3.2cm]{\UniversityLogo}
+			
+			\vspace*{2.5cm}
+			
+			{\fontsize{16}{21}\selectfont\bfseries \ReportTitle\par}
+			
+			\vspace*{4cm}
+		\end{center}
+		\noindent\hspace*{2.0cm}\parbox{14cm}{
+			\fontsize{13}{18}\selectfont
+			\textbf{Chuyên ngành:} \Major\\[0.4cm]
+			\textbf{Học phần:} \CourseName\\[0.4cm]
+			\textbf{Giảng viên hướng dẫn:} \SupervisorName\\[0.4cm]
+			\textbf{Học viên thực hiện:}\ \StudentName\\[0.4cm]
+		}
+		\vfill
+		\begin{center}
+			{\fontsize{15}{18}\selectfont\bfseries Hà Nội -- \ReportYear}
+		\end{center}
+	\end{titlepage}
 
-% -----------------------------------------------------------------------------
-% COVER -- double-frame layout adapted from MauLuanAn/bia1.tex.
-% -----------------------------------------------------------------------------
-\begin{titlepage}
-\thispagestyle{empty}
-\thisfancypage{\setlength{\fboxrule}{2pt}\doublebox}{}
-\centering
-\fontsize{15pt}{18pt}\selectfont
-{ĐẠI HỌC QUỐC GIA HÀ NỘI\par}
-\vspace{0.15cm}
-{\bfseries TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN\par}
-
-\vspace*{2.4cm}
-{\Large\bfseries TRẦN THẾ TÀI\par}
-
-\vspace*{2.7cm}
-{\Large\bfseries KIỂM ĐỊNH TÍNH NGẪU NHIÊN VÀ DỰ BÁO CHỮ SỐ\\[0.25cm]
-XỔ SỐ MIỀN BẮC\par}
-
-\vspace*{2.1cm}
-{\large\bfseries BÁO CÁO HỌC PHẦN\par}
-\vspace{0.35cm}
-{\large Phân tích thống kê, mô hình xác suất và đánh giá chiến lược\par}
-
-\vfill
-\begin{minipage}{0.78\textwidth}
-\fontsize{13pt}{19pt}\selectfont
-\textbf{Sinh viên:} Trần Thế Tài\\
-\textbf{Học phần:} Khai phá dữ liệu\\
-\textbf{Dữ liệu:} Kết quả xổ số miền Bắc, 2007--2026\\
-\textbf{Ngày cập nhật:} 09/2026
-\end{minipage}
-
-\vfill
-{\bfseries HÀ NỘI -- 2026\par}
-\vspace*{0.3cm}
-\end{titlepage}
-
-% Front matter follows the thesis convention: Roman page numbering and
-% a more open 13/20 leading for preliminary sections.
+% ==================== PHẦN ĐẦU ====================
 \frontmatter
 \fontsize{13pt}{20pt}\selectfont
-\input{NguonBaibao}
 \input{Tomtat}
+\input{NguonBaibao}
 
 \setcounter{tocdepth}{2}
 \tableofcontents
@@ -127,7 +154,7 @@ XỔ SỐ MIỀN BẮC\par}
 \listoffigures
 \listoftables
 
-% Main content restarts Arabic numbering at page 1, as in the supplied template.
+% ==================== NỘI DUNG ====================
 \mainmatter
 \fontsize{13pt}{18pt}\selectfont
 \include{sections/01_co_so_ly_thuyet}
