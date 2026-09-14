@@ -2,7 +2,7 @@ name: Build LaTeX report
 
 on:
   push:
-    branches: [lotery-update]
+    branches: [main]
     paths:
       - 'report/**'
       - 'artifacts/**'
