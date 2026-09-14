@@ -171,7 +171,7 @@ def boosted_probabilities(models: list, features: pd.DataFrame, row_index: int) 
 
 
 def rank_candidates(probabilities: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    scores = np.prod(probabilities[:, DIGITS], axis=0)
+    scores = np.prod(probabilities[np.arange(5)[:, None], DIGITS.T], axis=0)
     scores = scores / scores.sum()
     order = np.argsort(-scores, kind="stable")
     return order, scores
@@ -196,7 +196,7 @@ def collect_predictions(
 ) -> pd.DataFrame:
     target = data.loc[data["date"].between(start, end)].copy()
     target_indices = target.index.to_list()
-    model_names = ["expanding_frequency"]
+    model_names = ["uniform_random", "expanding_frequency"]
     model_names.extend(f"rolling_frequency_w{window}" for window in ROLLING_WINDOWS)
     model_names.append("markov_position")
     boosted_models = {}
@@ -212,11 +212,16 @@ def collect_predictions(
         current = data.loc[target_index]
         history = data.loc[data["date"].lt(current["date"])]
         for model_name in model_names:
-            if model_name in boosted_models:
+            if model_name == "uniform_random":
+                seed = int(current["date"].strftime("%Y%m%d"))
+                order = np.random.default_rng(seed).permutation(len(NUMBERS))
+                scores = np.full(len(NUMBERS), 1.0 / len(NUMBERS))
+            elif model_name in boosted_models:
                 probabilities = boosted_probabilities(boosted_models[model_name], features, target_index)
+                order, scores = rank_candidates(probabilities)
             else:
                 probabilities = model_probabilities(model_name, history)
-            order, scores = rank_candidates(probabilities)
+                order, scores = rank_candidates(probabilities)
             actual_index = int(current["number"])
             actual_probability = float(scores[actual_index])
             true_rank = int(np.flatnonzero(order == actual_index)[0] + 1)
