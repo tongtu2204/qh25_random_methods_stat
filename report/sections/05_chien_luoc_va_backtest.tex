@@ -65,14 +65,14 @@ Bảng~\ref{tab:special-five-year-waiting} trình bày kết quả ở hai cấu
 \toprule
 Mô hình & Top-1 & Top-10 & Ngày trúng Top-10 & Chờ (ngày / lượt) & ROI Top-10 \\
 \midrule
-Markov 5 năm & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\
-Tần suất 30 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\
-Tần suất 90 ngày & 0/5.281 & 1/5.281 & 31/12/2021 & 3.652 / 3.591 & -95,27\%\
-Tần suất 180 ngày & 0/5.281 & 1/5.281 & 07/09/2021 & 3.537 / 3.476 & -95,27\%\
-Tần suất 365 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\
-Tần suất 730 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\
-Tần suất 1.825 ngày & 0/5.281 & 1/5.281 & 07/10/2018 & 2.471 / 2.444 & -95,27\%\
-Random đều & 0/5.281 & 1/5.281 & 23/05/2021 & 3.430 / 3.369 & -95,27\%\
+Markov 5 năm & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
+Tần suất 30 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
+Tần suất 90 ngày & 0/5.281 & 1/5.281 & 31/12/2021 & 3.652 / 3.591 & -95,27\%\\
+Tần suất 180 ngày & 0/5.281 & 1/5.281 & 07/09/2021 & 3.537 / 3.476 & -95,27\%\\
+Tần suất 365 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
+Tần suất 730 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
+Tần suất 1.825 ngày & 0/5.281 & 1/5.281 & 07/10/2018 & 2.471 / 2.444 & -95,27\%\\
+Random đều & 0/5.281 & 1/5.281 & 23/05/2021 & 3.430 / 3.369 & -95,27\%\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -82,7 +82,7 @@ Không có mô hình nào trúng Top-1 trong toàn bộ 5.281 ngày đánh giá.
 \subsection{Hàm ý đối với chiến thuật đầu tư}
 Kết quả trên cho thấy việc tối ưu thứ hạng của một số Đặc biệt cụ thể không tạo ra lợi thế kinh tế. Nếu chỉ xét giải Đặc biệt, một vé có giá 10.000 VND có giá trị trả thưởng kỳ vọng
 \[
-\mathbb{E}[R]=\frac{25\,000\,000}{100\,000}=250\ VND,
+\mathbb{E}[R]=\frac{25\,000\,000}{100\,000}=250\,\text{VND},
 \]
 suy ra lợi nhuận kỳ vọng là $250-10\,000=-9\,750$ VND/vé và ROI kỳ vọng là $-97,5\%$. Mua $m$ vé mỗi ngày làm chi phí tăng tuyến tính nhưng không thay đổi ROI kỳ vọng.
 
