@@ -80,3 +80,50 @@ artifacts/p2_models/prize_target_boosted/boosted_prize_target_summary.csv
 - `03_boosted_daily_models.py`: XGBoost và CatBoost, mỗi model gồm 50 classifier nhị phân cho 5 vị trí × 10 chữ số.
 - Cài dependency bằng `python -m pip install -r requirements.txt`.
 - Kết quả được đánh giá cùng protocol và metric của `02_daily_model_evaluation.py`.
+
+## P2C — dự đoán riêng giải Đặc biệt
+
+P2C chỉ sử dụng đúng một quan sát mỗi ngày: chuỗi 5 chữ số của giải
+`Đặc biệt`. Các số có chữ số 0 ở đầu được giữ nguyên dưới dạng chuỗi, ví dụ
+`01234`; không trộn dữ liệu của các giải ngắn vào target này.
+
+Các model gồm:
+
+- `uniform_random`;
+- tần suất chữ số expanding;
+- tần suất chữ số rolling với cửa sổ 30, 90, 180, 365 và 730 ngày;
+- Markov theo từng vị trí;
+- CatBoost/XGBoost theo từng vị trí.
+
+Xác suất của một số 5 chữ số được tính từ tích xác suất của năm vị trí, sau đó
+xếp hạng toàn bộ 100.000 số từ `00000` đến `99999`. Kết quả chỉ lưu Top-100
+mỗi ngày nhưng metric được tính trên toàn bộ không gian số.
+
+Chạy:
+
+```bash
+python experiments/p2_models/06_special_prize_models.py
+python experiments/p3_strategies/03_special_prize_backtest.py
+```
+
+Kết quả P2C:
+
+```text
+artifacts/p2_models/special_prize/special_prize_predictions.csv.gz
+artifacts/p2_models/special_prize/special_prize_model_summary.csv
+```
+
+Kết quả P3C:
+
+```text
+artifacts/p3_strategies/special_prize/special_prize_daily_results.csv.gz
+artifacts/p3_strategies/special_prize/special_prize_prize_hits.csv.gz
+artifacts/p3_strategies/special_prize/special_prize_strategy_summary.csv
+artifacts/p3_strategies/special_prize/special_prize_by_prize_summary.csv
+```
+
+`special_prize_strategy_summary.csv` là kết quả chính của việc săn Đặc biệt.
+`special_prize_by_prize_summary.csv` thống kê thêm tỷ lệ trúng từng giải khác
+bằng chính các vé 5 chữ số đã chọn để săn Đặc biệt. Hai chế độ lợi nhuận được
+tách riêng: `db_only_profit` chỉ tính giải Đặc biệt và `all_prizes_profit`
+cộng cả các giải khác.
