@@ -36,3 +36,54 @@ Kết quả theo $m$ được giữ lại như một thí nghiệm độ nhạy.
 
 \section{Diễn giải}
 Tất cả cấu hình đều có ROI âm trên cả hai giai đoạn. Cấu hình 32 vé có tỷ lệ ngày có ít nhất một lần trúng cao hơn, nhưng chi phí cũng lớn hơn và tổng lợi nhuận vẫn âm. Đây là bằng chứng trực tiếp rằng một cải thiện nhỏ về thứ hạng chữ số trong P2 không chuyển thành lợi thế kinh tế trong cơ chế trả thưởng được mô phỏng.
+
+\section{Thí nghiệm rolling năm năm đối với giải Đặc biệt}
+\subsection{Mục tiêu và giao thức}
+Sau khi các thí nghiệm P1--P3 không cho thấy lợi thế ổn định khi dự báo chữ số, một thí nghiệm riêng được thực hiện cho đúng mục tiêu ``đoán một số Đặc biệt gồm năm chữ số''. Với ngày dự đoán $t$, mô hình chỉ được sử dụng các kết quả Đặc biệt xuất hiện trước $t$ và nằm trong năm năm lịch liền trước. Như vậy, thông tin của tương lai không được sử dụng trong quá trình dự báo.
+
+Thí nghiệm được thực hiện trên dữ liệu từ ngày 01/01/2007 đến ngày 06/09/2026. Giai đoạn đánh giá bắt đầu từ ngày 01/01/2012, gồm 5.281 ngày có kết quả. Tám mô hình được so sánh gồm Random đều, Markov theo vị trí và các mô hình tần suất rolling với cửa sổ 30, 90, 180, 365, 730 và 1.825 ngày. Mỗi mô hình tạo danh sách Top-$m$, với $m=1,\ldots,10$, gồm các số năm chữ số có xác suất dự báo cao nhất. Các số có chữ số đầu bằng 0 vẫn được giữ nguyên dưới dạng chuỗi năm chữ số.
+
+Nếu lựa chọn ngẫu nhiên một số trong $100.000$ số có thể, xác suất trúng với Top-$m$ trong một ngày là
+\[
+p_m=\frac{m}{100\,000}.
+\]
+Do đó, số lần trúng kỳ vọng sau $N$ ngày là $Np_m$, còn xác suất có ít nhất một lần trúng là
+\[
+P_m(\text{ít nhất một lần trúng})=1-(1-p_m)^N.
+\]
+Các đại lượng này được dùng làm đường cơ sở để phân biệt một lần trúng ngẫu nhiên với bằng chứng về lợi thế dự báo.
+
+\subsection{Kết quả thời gian chờ}
+Bảng~\ref{tab:special-five-year-waiting} trình bày kết quả ở hai cấu hình có ý nghĩa thực tiễn nhất: chỉ mua một số đứng đầu và mua mười số đứng đầu mỗi ngày. ``Thời gian chờ'' được tính từ ngày bắt đầu dự đoán đến lần trúng đầu tiên; số lượt trong ngoặc là thứ tự ngày dự đoán có trúng.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Thời gian chờ đến lần trúng Đặc biệt đầu tiên trong cửa sổ rolling năm năm}
+\label{tab:special-five-year-waiting}
+\begin{tabularx}{\linewidth}{L{3.25cm}ccL{2.65cm}L{2.85cm}r}
+\toprule
+Mô hình & Top-1 & Top-10 & Ngày trúng Top-10 & Chờ (ngày / lượt) & ROI Top-10 \\
+\midrule
+Markov 5 năm & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\
+Tần suất 30 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\
+Tần suất 90 ngày & 0/5.281 & 1/5.281 & 31/12/2021 & 3.652 / 3.591 & -95,27\%\
+Tần suất 180 ngày & 0/5.281 & 1/5.281 & 07/09/2021 & 3.537 / 3.476 & -95,27\%\
+Tần suất 365 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\
+Tần suất 730 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\
+Tần suất 1.825 ngày & 0/5.281 & 1/5.281 & 07/10/2018 & 2.471 / 2.444 & -95,27\%\
+Random đều & 0/5.281 & 1/5.281 & 23/05/2021 & 3.430 / 3.369 & -95,27\%\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Không có mô hình nào trúng Top-1 trong toàn bộ 5.281 ngày đánh giá. Với Top-10, ba mô hình tần suất và đường cơ sở Random đều mỗi mô hình chỉ trúng một lần; các mô hình còn lại không trúng. Trong cùng số ngày, Top-1 ngẫu nhiên có số lần trúng kỳ vọng $0,05281$ và xác suất có ít nhất một lần trúng khoảng $5,14\%$. Với Top-10, số lần trúng kỳ vọng là $0,52810$ và xác suất có ít nhất một lần trúng khoảng $41,03\%$. Vì vậy, việc một số mô hình Top-10 trúng một lần là hoàn toàn phù hợp với dao động ngẫu nhiên của đường cơ sở, chưa tạo thành bằng chứng về khả năng dự báo.
+
+\subsection{Hàm ý đối với chiến thuật đầu tư}
+Kết quả trên cho thấy việc tối ưu thứ hạng của một số Đặc biệt cụ thể không tạo ra lợi thế kinh tế. Nếu chỉ xét giải Đặc biệt, một vé có giá 10.000 VND có giá trị trả thưởng kỳ vọng
+\[
+\mathbb{E}[R]=\frac{25\,000\,000}{100\,000}=250\ VND,
+\]
+suy ra lợi nhuận kỳ vọng là $250-10\,000=-9\,750$ VND/vé và ROI kỳ vọng là $-97,5\%$. Mua $m$ vé mỗi ngày làm chi phí tăng tuyến tính nhưng không thay đổi ROI kỳ vọng.
+
+Do đó, hướng nghiên cứu tiếp theo không tiếp tục tìm một ``số Đặc biệt chắc chắn'', mà chuyển sang đánh giá chiến thuật đầu tư dưới ngân sách cố định. Mỗi chiến thuật được khóa trên validation, sau đó đánh giá một lần trên final test. Các tiêu chí gồm tỷ lệ ngày có ít nhất một lần trúng, lợi nhuận tích lũy, ROI, thời gian hòa vốn và độ ổn định giữa các giai đoạn. Việc đối sánh phải sử dụng toàn bộ cơ cấu giải thưởng hợp lệ, vì các giải thấp và các dạng khớp một phần có thể làm thay đổi giá trị kỳ vọng so với chiến lược chỉ nhắm vào giải Đặc biệt.
