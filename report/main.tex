@@ -6,9 +6,9 @@
 \usepackage{fontspec}
 \usepackage{polyglossia}
 \setdefaultlanguage{vietnamese}
-\setmainfont{Times New Roman}
-\setsansfont{Arial}
-\setmonofont{Consolas}
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{DejaVu Serif}}
+\IfFontExistsTF{Arial}{\setsansfont{Arial}}{\setsansfont{DejaVu Sans}}
+\IfFontExistsTF{Consolas}{\setmonofont{Consolas}}{\setmonofont{DejaVu Sans Mono}}
 \usepackage{scrextend}
 \changefontsizes{13pt}
 
