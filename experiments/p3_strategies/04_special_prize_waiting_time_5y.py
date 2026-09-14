@@ -137,41 +137,49 @@ def collect_daily(data: pd.DataFrame) -> pd.DataFrame:
 
 def waiting_summary(daily: pd.DataFrame) -> pd.DataFrame:
     rows = []
-    for (model, m), frame in daily.groupby(["model", "m"], sort=True):
-        frame = frame.sort_values("date").reset_index(drop=True)
-        hits = frame.loc[frame[f"top{m}_hit"].eq(1), "date"]
-        hit_dates = pd.to_datetime(hits).tolist()
-        first_prediction_date = frame["date"].iloc[0]
-        first_hit_date = hit_dates[0] if hit_dates else pd.NaT
-        gaps = np.diff(np.asarray(hit_dates, dtype="datetime64[D]")).astype("timedelta64[D]").astype(int) if len(hit_dates) > 1 else np.asarray([], dtype=int)
-        n_days = len(frame)
-        n_hits = len(hit_dates)
-        cost = n_days * m * COST_PER_TICKET
-        payout = n_hits * SPECIAL_PAYOUT
-        uniform_rate = m / 100_000
-        rows.append(
-            {
-                "model": model,
-                "m": m,
-                "first_prediction_date": first_prediction_date,
-                "last_prediction_date": frame["date"].iloc[-1],
-                "n_prediction_days": n_days,
-                "n_hits": n_hits,
-                "hit_rate": n_hits / n_days,
-                "uniform_expected_hits": n_days * uniform_rate,
-                "uniform_probability_at_least_one_hit": 1.0 - (1.0 - uniform_rate) ** n_days,
-                "hit_lift_vs_uniform": (n_hits / n_days) / uniform_rate if uniform_rate else np.nan,
-                "first_hit_date": first_hit_date,
-                "first_hit_wait_calendar_days": int((first_hit_date - first_prediction_date).days) if pd.notna(first_hit_date) else np.nan,
-                "first_hit_after_n_predictions": int(frame.index[frame[f"top{m}_hit"].eq(1)][0] + 1) if n_hits else np.nan,
-                "mean_inter_hit_days": float(gaps.mean()) if len(gaps) else np.nan,
-                "median_inter_hit_days": float(np.median(gaps)) if len(gaps) else np.nan,
-                "cost": cost,
-                "payout": payout,
-                "profit": payout - cost,
-                "roi": (payout - cost) / cost,
-            }
-        )
+    for m in TOP_M:
+        hit_column = f"top{m}_hit"
+        for model, frame in daily.groupby("model", sort=True):
+            frame = frame.sort_values("date").reset_index(drop=True)
+            hits = frame.loc[frame[hit_column].eq(1), "date"]
+            hit_dates = pd.to_datetime(hits).tolist()
+            first_prediction_date = frame["date"].iloc[0]
+            first_hit_date = hit_dates[0] if hit_dates else pd.NaT
+            gaps = (
+                np.diff(np.asarray(hit_dates, dtype="datetime64[D]"))
+                .astype("timedelta64[D]")
+                .astype(int)
+                if len(hit_dates) > 1
+                else np.asarray([], dtype=int)
+            )
+            n_days = len(frame)
+            n_hits = len(hit_dates)
+            cost = n_days * m * COST_PER_TICKET
+            payout = n_hits * SPECIAL_PAYOUT
+            uniform_rate = m / 100_000
+            rows.append(
+                {
+                    "model": model,
+                    "m": m,
+                    "first_prediction_date": first_prediction_date,
+                    "last_prediction_date": frame["date"].iloc[-1],
+                    "n_prediction_days": n_days,
+                    "n_hits": n_hits,
+                    "hit_rate": n_hits / n_days,
+                    "uniform_expected_hits": n_days * uniform_rate,
+                    "uniform_probability_at_least_one_hit": 1.0 - (1.0 - uniform_rate) ** n_days,
+                    "hit_lift_vs_uniform": (n_hits / n_days) / uniform_rate if uniform_rate else np.nan,
+                    "first_hit_date": first_hit_date,
+                    "first_hit_wait_calendar_days": int((first_hit_date - first_prediction_date).days) if pd.notna(first_hit_date) else np.nan,
+                    "first_hit_after_n_predictions": int(frame.index[frame[hit_column].eq(1)][0] + 1) if n_hits else np.nan,
+                    "mean_inter_hit_days": float(gaps.mean()) if len(gaps) else np.nan,
+                    "median_inter_hit_days": float(np.median(gaps)) if len(gaps) else np.nan,
+                    "cost": cost,
+                    "payout": payout,
+                    "profit": payout - cost,
+                    "roi": (payout - cost) / cost,
+                }
+            )
     return pd.DataFrame(rows)
 
 
