@@ -62,7 +62,6 @@ def load_data(path: Path) -> pd.DataFrame:
     if (~raw_number.str.fullmatch(r"\d{2,5}")).any():
         raise ValueError("Cột number phải chứa từ 2 đến 5 chữ số.")
     df["number_raw"] = raw_number
-    df["number_str"] = raw_number.str.zfill(5)
     # Position 1 is the units digit, followed by tens, hundreds, thousands,
     # and ten-thousands.  This right-aligned convention is essential because
     # the traditional draw contains 2-, 3-, 4-, and 5-digit prize numbers.
@@ -129,15 +128,17 @@ def digit_distribution(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def suffix_distribution(df: pd.DataFrame) -> pd.DataFrame:
+    """Test suffixes only on observations whose original number has enough digits."""
     rows = []
     for scope, part in scope_frames(df):
         for length in range(1, 6):
-            suffix = part["number_str"].str[-length:]
+            eligible = part[part["number_raw"].str.len() >= length]
+            suffix = eligible["number_raw"].str[-length:]
             support = 10 ** length
             counts = suffix.value_counts().reindex(
                 [str(i).zfill(length) for i in range(support)], fill_value=0
             )
-            expected_count = len(part) / support
+            expected_count = len(eligible) / support
             # Pearson's chi-square approximation is unreliable when expected
             # cell counts are small.  Keep the empirical distribution, but do
             # not manufacture a p-value for sparse 4/5-digit supports.
@@ -148,7 +149,7 @@ def suffix_distribution(df: pd.DataFrame) -> pd.DataFrame:
                 stat, pvalue, valid = np.nan, np.nan, False
             rows.append({
                 "scope": scope, "suffix_length": length,
-                "n_observations": len(part), "support_size": support,
+                "n_observations": len(eligible), "support_size": support,
                 "chi2": stat, "p_value": pvalue,
                 "expected_count": expected_count, "valid_chi_square": valid,
             })
@@ -235,17 +236,18 @@ def build_daily_multi_win(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]
     """Evaluate overlapping prize rules for each drawn 5-digit number.
 
     The automatic DB -> DB khuyến khích pair is deliberately excluded because
-    the project does not model the ticket's special symbol.
+    the project does not model the ticket's special symbol. Each result keeps
+    its native length; no short prize is zero-padded to five digits here.
     """
     daily_rows = []
     for date, day in df.groupby("date", sort=True):
         targets = {}
         for prize, (length, kind) in PRIZE_RULES.items():
-            values = day.loc[day["prize"] == prize, "number_str"]
+            values = day.loc[day["prize"] == prize, "number_raw"]
             targets[prize] = {x if kind == "exact" else x[-length:] for x in values}
         eligible = [p for p in PRIZE_ORDER if p in targets]
         ticket_rows = []
-        for number in day["number_str"]:
+        for number in day["number_raw"]:
             hits = []
             for prize in eligible:
                 length, kind = PRIZE_RULES[prize]
@@ -561,6 +563,7 @@ def write_report(df, digit, suffix, position, temporal, daily, yearly, markov, l
 - Dữ liệu: `{len(df):,}` dòng giải, `{df['date'].nunique():,}` ngày, từ `{df.date.min().date()}` đến `{df.date.max().date()}`.
 - Phân tích gồm hai lớp: **gộp toàn bộ giải** và **tách theo từng giải**.
 - Mức ý nghĩa: kiểm định hai phía với hiệu chỉnh nhiều kiểm định Benjamini–Hochberg (FDR), ngưỡng q < 0.05.
+- Với mỗi độ dài suffix, chỉ các kết quả có đủ số chữ số gốc mới được đưa vào; không zero-pad giải 2/3/4 chữ số thành 5 chữ số.
 - Với đuôi 4/5 chữ số, các ô có kỳ vọng thấp được giữ ở dạng tần suất mô tả và không gán p-value Chi-square nếu không đủ điều kiện xấp xỉ.
 - Thống kê trúng nhiều giải loại trừ rule tự động: vé trùng Giải đặc biệt không được tính đồng thời Giải phụ đặc biệt và Giải khuyến khích đặc biệt.
 
