@@ -10,6 +10,13 @@ Expanding Beta đứng đầu validation, trong khi CatBoost là mô hình học
 \section{Ý nghĩa thực tiễn}
 Lợi nhuận dương trong một giai đoạn không đủ chứng minh lợi thế dài hạn. Nếu kết quả không tái lập ở giai đoạn khác, kết luận phù hợp là hiệu năng chưa ổn định. Cần báo cáo khoảng tin cậy, nhiều giai đoạn rolling và số lần thử chiến lược.
 
+\section{Giải Đặc biệt và chuyển hướng sang bài toán đầu tư}
+Thí nghiệm rolling năm năm cho mục tiêu chính xác một số Đặc biệt cung cấp một kiểm tra nghiêm ngặt hơn so với việc chỉ so sánh điểm số xác suất. Trong 5.281 ngày dự đoán, không mô hình nào trúng Top-1; ở Top-10, số lần trúng cao nhất chỉ bằng đúng một lần và đường cơ sở Random đều cũng đạt một lần. Kết quả này không cho thấy mô hình nào vượt qua xác suất nền.
+
+Về mặt phương pháp luận, dữ liệu không thể chứng minh mệnh đề tuyệt đối rằng mọi cơ chế sinh số là ngẫu nhiên. Tuy nhiên, với dữ liệu quan sát, các kiểm định thống kê, đánh giá walk-forward, so sánh với Random và kết quả lợi nhuận, giả thuyết phù hợp nhất là giải Đặc biệt không chứa tín hiệu ổn định có thể khai thác để dự báo. Vì vậy, trong phạm vi nghiên cứu này, giải Đặc biệt được xem là một biến ngẫu nhiên và không được sử dụng làm mục tiêu tối ưu hóa lợi nhuận riêng lẻ.
+
+Kết luận này dẫn đến thay đổi mục tiêu của P3: thay vì cố dự báo đúng giải cao nhất, chiến thuật được đánh giá như một quyết định phân bổ ngân sách. Một chiến thuật chỉ được xem là có giá trị khi lợi nhuận và ROI được tái lập trên các giai đoạn chưa dùng để lựa chọn cấu hình, đồng thời không phụ thuộc vào một vài lần trúng bất thường.
+
 \section{Hạn chế}
 \begin{itemize}
 \item Cách định nghĩa mục tiêu theo 27 kết quả ảnh hưởng mạnh đến độ khó.
