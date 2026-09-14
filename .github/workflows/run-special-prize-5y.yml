@@ -1,0 +1,49 @@
+name: Run special-prize five-year waiting experiment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/p3_strategies/04_special_prize_waiting_time_5y.py'
+      - '.github/workflows/run-special-prize-5y.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  experiment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run five-year waiting experiment
+        run: python experiments/p3_strategies/04_special_prize_waiting_time_5y.py
+
+      - name: Upload experiment outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: special-prize-5y-results
+          path: artifacts/p3_strategies/special_prize_5y/
+
+      - name: Commit compressed daily output
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add artifacts/p3_strategies/special_prize_5y/special_prize_5y_daily.csv.gz
+          if git diff --cached --quiet; then
+            echo 'Experiment output is unchanged.'
+          else
+            git commit -m 'Add five-year special-prize waiting results'
+            git push
+          fi
