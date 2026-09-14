@@ -70,15 +70,27 @@ def markov_probabilities(history: pd.DataFrame) -> np.ndarray:
     return np.asarray(probabilities)
 
 
-def top_candidates(probabilities: np.ndarray, actual: str) -> tuple[list[str], int, float]:
-    scores = np.prod(probabilities[np.arange(5)[:, None], DIGITS.T], axis=0)
-    scores = scores / scores.sum()
-    actual_index = int(actual)
-    actual_probability = float(scores[actual_index])
-    true_rank = int(np.count_nonzero(scores > actual_probability) + 1)
-    candidate_index = np.argpartition(-scores, 10)[:10]
-    candidate_index = candidate_index[np.argsort(-scores[candidate_index], kind="stable")]
-    return NUMBERS[candidate_index].tolist(), true_rank, actual_probability
+def top_candidates(probabilities: np.ndarray, actual: str) -> tuple[list[str], float, float]:
+    # Keep only the best 10 partial products at every digit position.
+    # Because every complete score is a product of five independent digit
+    # probabilities, this is sufficient to recover the exact Top-10 numbers.
+    states: list[tuple[list[int], float]] = [([], 1.0)]
+    for position_probabilities in probabilities:
+        expanded = [
+            (digits + [digit], score * float(position_probabilities[digit]))
+            for digits, score in states
+            for digit in range(10)
+        ]
+        expanded.sort(key=lambda item: (-item[1], item[0]))
+        states = expanded[:10]
+
+    candidates = ["".join(map(str, digits)) for digits, _ in states]
+    actual_probability = float(np.prod([
+        probabilities[position, int(digit)]
+        for position, digit in enumerate(actual)
+    ]))
+    true_rank = float(candidates.index(actual) + 1) if actual in candidates else np.nan
+    return candidates, true_rank, actual_probability
 
 
 def collect_daily(data: pd.DataFrame) -> pd.DataFrame:
