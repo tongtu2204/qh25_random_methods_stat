@@ -1,8 +1,208 @@
 \chapter{CHIẾN LƯỢC VÀ BACKTEST}
+\section{Độ khó của mục tiêu giải Đặc biệt}
+Mục tiêu giải Đặc biệt phải được tách khỏi mục tiêu dự báo chữ số thông thường ngay từ đầu. Một vé hợp lệ có dạng gồm một ký hiệu (số quay bổ sung) và một số năm chữ số, chẳng hạn $\texttt{05-34534}$. Vì vậy, để nhận giải Đặc biệt trị giá 500 triệu VND, vé phải đồng thời thỏa mãn hai điều kiện: (i) năm chữ số là đúng $34534$ và (ii) ký hiệu là một trong bốn ký hiệu trúng thưởng được quay từ tổng số 20 ký hiệu.
+
+Với giả định các chữ số và ký hiệu được sinh độc lập và đồng đều, xác suất của một vé cụ thể được tính như sau:
+\[
+\begin{aligned}
+	P(\text{đúng 5 chữ số}) &= \frac{1}{100\,000}=0{,}001\%,\\
+	P(\text{đúng ký hiệu}\mid\text{đúng 5 chữ số}) &= \frac{4}{20}=20\%,\\
+	P(\text{giải Đặc biệt}) &= \frac{1}{100\,000}\times\frac{4}{20}
+	=\frac{1}{500\,000}=0{,}0002\%.
+\end{aligned}
+\]
+Như vậy, việc khớp đủ năm chữ số mới chỉ là điều kiện cần; khi bổ sung điều kiện ký hiệu, xác suất trúng thực sự giảm thêm năm lần. Số lượt quay kỳ vọng để một vé đơn lẻ trúng là $500\,000$ lượt, tương đương khoảng $1\,370$ năm nếu mỗi ngày có một lượt quay. Với $m$ vé khác nhau trong một ngày, xác suất lý thuyết trong ngày là $m/500\,000$.
+
+Trong bộ dữ liệu sử dụng cho báo cáo, trường ký hiệu của giải Đặc biệt chưa được lưu thành một biến quan sát riêng; các thí nghiệm mô hình và backtest trực tiếp vì vậy chỉ đánh giá phần năm chữ số. Phép tính trên là bước hiệu chỉnh xác suất lý thuyết cho mục tiêu giải thưởng đầy đủ, chứ không được diễn giải là một lần trúng ký hiệu đã quan sát trong backtest. Chẳng hạn, trong 1\,806 ngày kiểm tra 2021--2025, một vé Top-1 có số lần trúng kỳ vọng $0{,}003612$ và xác suất có ít nhất một lần trúng chỉ khoảng $0{,}361\%$; trong 5\,281 ngày của thí nghiệm rolling năm năm, các giá trị tương ứng là $0{,}010562$ và khoảng $1{,}051\%$. Với Top-10, xác suất có ít nhất một lần trúng trong hai giai đoạn lần lượt chỉ khoảng $3{,}548\%$ và $10{,}023\%$.
+
+Kết quả này cung cấp động cơ cho việc chuyển từ câu hỏi ``dự đoán một số Đặc biệt'' sang câu hỏi ``chiến thuật mua vé có tạo ra lợi nhuận hay không''. Các kiểm định chi tiết đối với Top-1--Top-10, thời gian chờ, lần trúng thứ hai và ROI được trình bày trước khi đánh giá các chiến lược P3 ở các mục tiếp theo.
+
+\section{Thí nghiệm rolling năm năm đối với giải Đặc biệt}
+\subsection{Mục tiêu và giao thức}
+Để kiểm định trực tiếp độ khó của mục tiêu giải Đặc biệt, một thí nghiệm riêng được thực hiện cho bài toán dự báo số gồm năm chữ số. Với ngày dự đoán $t$, mô hình chỉ được sử dụng các kết quả Đặc biệt xuất hiện trước $t$ và nằm trong năm năm lịch liền trước. Như vậy, thông tin của tương lai không được sử dụng trong quá trình dự báo.
+
+Thí nghiệm được thực hiện trên dữ liệu từ ngày 01/01/2007 đến ngày 06/09/2026. Giai đoạn đánh giá bắt đầu từ ngày 01/01/2012, gồm 5.281 ngày có kết quả. Tám mô hình được so sánh gồm Random đều, Markov theo vị trí và các mô hình tần suất rolling với cửa sổ 30, 90, 180, 365, 730 và 1.825 ngày. Mỗi mô hình tạo danh sách Top-$m$, với $m=1,\ldots,10$, gồm các số năm chữ số có xác suất dự báo cao nhất. Các số có chữ số đầu bằng 0 vẫn được giữ nguyên dưới dạng chuỗi năm chữ số.
+
+Nếu lựa chọn ngẫu nhiên một số trong $100.000$ số có thể, xác suất trúng với Top-$m$ trong một ngày là
+\[
+p_m=\frac{m}{100\,000}.
+\]
+Do đó, số lần trúng kỳ vọng sau $N$ ngày là $Np_m$, còn xác suất có ít nhất một lần trúng là
+\[
+P_m(\text{ít nhất một lần trúng})=1-(1-p_m)^N.
+\]
+Các đại lượng này được dùng làm đường cơ sở để phân biệt một lần trúng ngẫu nhiên với bằng chứng về lợi thế dự báo.
+
+Tuy nhiên, $p_m$ ở trên mới chỉ là xác suất khớp phần năm chữ số. Nếu yêu cầu đúng thêm ký hiệu giải Đặc biệt theo cấu trúc $4/20$, xác suất trúng đầy đủ của Top-$m$ phải được hiệu chỉnh thành
+\[
+p_m^{\mathrm{đầy\ đủ}}=\frac{m}{100\,000}\times\frac{4}{20}
+=\frac{m}{500\,000}.
+\]
+Do trường ký hiệu không có trong dữ liệu, các bảng thực nghiệm tiếp theo vẫn báo cáo kết quả khớp năm chữ số; $p_m^{\mathrm{đầy\ đủ}}$ được sử dụng để diễn giải mức khó lý thuyết của giải thưởng hoàn chỉnh.
+
+\subsection{Kết quả thời gian chờ}
+Bảng~\ref{tab:special-five-year-waiting} trình bày kết quả ở hai cấu hình có ý nghĩa thực tiễn nhất: chỉ mua một số đứng đầu và mua mười số đứng đầu mỗi ngày. ``Thời gian chờ'' được tính từ ngày bắt đầu dự đoán đến lần trúng đầu tiên; số lượt trong ngoặc là thứ tự ngày dự đoán có trúng.
+
+\begin{table}[H]
+	\centering
+	\small
+	\caption{Thời gian chờ đến lần trúng Đặc biệt đầu tiên trong cửa sổ rolling năm năm}
+	\label{tab:special-five-year-waiting}
+	\begin{tabularx}{\linewidth}{L{3.25cm}ccL{2.65cm}L{2.85cm}r}
+		\toprule
+		Mô hình & Top-1 & Top-10 & Ngày trúng Top-10 & Chờ (ngày / lượt) & ROI Top-10 \\
+		\midrule
+		Markov 5 năm & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
+		Tần suất 30 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
+		Tần suất 90 ngày & 0/5.281 & 1/5.281 & 31/12/2021 & 3.652 / 3.591 & -95,27\%\\
+		Tần suất 180 ngày & 0/5.281 & 1/5.281 & 07/09/2021 & 3.537 / 3.476 & -95,27\%\\
+		Tần suất 365 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
+		Tần suất 730 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
+		Tần suất 1.825 ngày & 0/5.281 & 1/5.281 & 07/10/2018 & 2.471 / 2.444 & -95,27\%\\
+		Random đều & 0/5.281 & 1/5.281 & 23/05/2021 & 3.430 / 3.369 & -95,27\%\\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+Không có mô hình nào trúng Top-1 trong toàn bộ 5.281 ngày đánh giá. Với Top-10, ba mô hình tần suất và đường cơ sở Random đều mỗi mô hình chỉ trúng một lần; các mô hình còn lại không trúng. Trong cùng số ngày, Top-1 ngẫu nhiên có số lần trúng kỳ vọng $0,05281$ và xác suất có ít nhất một lần trúng khoảng $5,14\%$. Với Top-10, số lần trúng kỳ vọng là $0,52810$ và xác suất có ít nhất một lần trúng khoảng $41,03\%$. Vì vậy, việc một số mô hình Top-10 trúng một lần là hoàn toàn phù hợp với dao động ngẫu nhiên của đường cơ sở, chưa tạo thành bằng chứng về khả năng dự báo.
+
+\subsection{Hàm ý đối với chiến thuật đầu tư}
+Kết quả trên cho thấy việc tối ưu thứ hạng của một số Đặc biệt cụ thể không tạo ra lợi thế kinh tế. Nếu chỉ xét giải Đặc biệt, một vé có giá 10.000 VND có giá trị trả thưởng kỳ vọng
+\[
+\mathbb{E}[R]=\frac{500\,000\,000}{500\,000}=1\,000\,\text{VND},
+\]
+suy ra lợi nhuận kỳ vọng là $1\,000-10\,000=-9\,000$ VND/vé và ROI kỳ vọng là $-90\%$. Mua $m$ vé mỗi ngày làm chi phí tăng tuyến tính nhưng không thay đổi ROI kỳ vọng. Đây là giá trị lý thuyết của giải Đặc biệt 500 triệu VND; các bảng backtest bên dưới chỉ kiểm tra phần năm chữ số và giữ nguyên lịch trả thưởng được mã hóa trong thí nghiệm, vì dữ liệu chưa có trường ký hiệu bổ sung.
+
+Do đó, hướng nghiên cứu tiếp theo không tiếp tục tìm một ``số Đặc biệt chắc chắn'', mà chuyển sang đánh giá chiến thuật đầu tư dưới ngân sách cố định. Mỗi chiến thuật được khóa trên validation, sau đó đánh giá một lần trên final test. Các tiêu chí gồm tỷ lệ ngày có ít nhất một lần trúng, lợi nhuận tích lũy, ROI, thời gian hòa vốn và độ ổn định giữa các giai đoạn. Việc đối sánh phải sử dụng toàn bộ cơ cấu giải thưởng hợp lệ, vì các giải thấp và các dạng khớp một phần có thể làm thay đổi giá trị kỳ vọng so với chiến lược chỉ nhắm vào giải Đặc biệt.
+
+\section{Thí nghiệm cố định huấn luyện trước năm 2021 và kiểm tra năm 2021--2025}
+\subsection{Thiết kế thực nghiệm}
+Thí nghiệm này được xây dựng để trả lời câu hỏi thực tế hơn: nếu mô hình được huấn luyện bằng toàn bộ dữ liệu lịch sử trước năm 2021, trong năm năm tiếp theo mô hình có thể trúng giải Đặc biệt với tần suất và hiệu quả kinh tế như thế nào. Giai đoạn huấn luyện/phát triển sử dụng dữ liệu từ ngày 01/01/2007 đến ngày 31/12/2020. Giai đoạn kiểm tra bắt đầu từ ngày 01/01/2021 và kết thúc ngày 31/12/2025. Sau khi loại các ngày thiếu hoặc không hợp lệ, có 1\,806 ngày dự đoán.
+
+Mỗi mô hình tạo thứ hạng cho toàn bộ $100\,000$ số năm chữ số và đánh giá các ngưỡng Top-$k$, với $k\in\{1,\ldots,10\}$. Các mô hình gồm Random đều, Expanding Frequency, Rolling Frequency với cửa sổ 30, 90, 180, 365 và 730 ngày, Markov theo vị trí chữ số, CatBoost theo vị trí và XGBoost theo vị trí. CatBoost và XGBoost được huấn luyện cố định một lần trên dữ liệu đến hết năm 2020. Ngược lại, các mô hình thống kê được cập nhật prequential: tại ngày $t$, chỉ các kết quả trước $t$ được phép tham gia vào phân phối dự báo; kết quả của ngày $t$ chỉ được đưa vào trạng thái sau khi dự báo đã được sinh ra.
+
+Đối với mỗi ngưỡng Top-$k$, chi phí là $10\,000$ VND cho một vé mỗi ngày. Tiền thưởng được tính đồng thời trên toàn bộ 27 kết quả trong ngày theo đúng loại giải: giải Đặc biệt, giải Nhất, Nhì, Ba yêu cầu khớp năm chữ số; giải Tư và Năm khớp bốn chữ số; giải Sáu khớp ba chữ số; giải Bảy khớp hai chữ số. Do đó, bảng ROI ``toàn bộ giải'' bao gồm cả các giải thấp hơn, trong khi ROI ``chỉ giải Đặc biệt'' chỉ tính khoản thưởng Đặc biệt.
+
+\subsection{Chất lượng thứ hạng và tỷ lệ trúng giải Đặc biệt}
+Bảng~\ref{tab:fixed-special-models} cho thấy thứ hạng trung bình của số Đặc biệt thực tế gần $50\,000$ ở tất cả mô hình. Không mô hình nào trúng Top-1 trong 1\,806 ngày kiểm tra. Tỷ lệ Top-10 cao nhất chỉ là một ngày trên 1\,806 ngày, tương đương $0,055\%$.
+
+\begin{table}[H]
+	\centering\small
+	\caption{Thứ hạng và tỷ lệ trúng giải Đặc biệt trên tập kiểm tra 2021--2025}
+	\label{tab:fixed-special-models}
+	\resizebox{\linewidth}{!}{%
+		\begin{tabular}{lrrrrrrrr}
+			\toprule
+			Mô hình & Hạng TB & Top-1 & Top-5 & Top-10 & Top-20 & Top-50 & Top-100 \\
+			\midrule
+			CatBoost & 49\,268,37 & 0,000\% & 0,000\% & 0,055\% & 0,055\% & 0,055\% & 0,111\% \\
+			Expanding Frequency & 50\,484,06 & 0,000\% & 0,000\% & 0,000\% & 0,000\% & 0,000\% & 0,000\% \\
+			Markov & 50\,222,72 & 0,000\% & 0,000\% & 0,055\% & 0,055\% & 0,055\% & 0,111\% \\
+			Rolling Frequency 180 & 50\,257,31 & 0,000\% & 0,055\% & 0,055\% & 0,055\% & 0,055\% & 0,166\% \\
+			Rolling Frequency 30 & 49\,732,20 & 0,000\% & 0,000\% & 0,000\% & 0,000\% & 0,055\% & 0,055\% \\
+			Rolling Frequency 365 & 50\,428,76 & 0,000\% & 0,000\% & 0,000\% & 0,000\% & 0,000\% & 0,055\% \\
+			Rolling Frequency 730 & 50\,159,11 & 0,000\% & 0,000\% & 0,000\% & 0,000\% & 0,055\% & 0,055\% \\
+			Rolling Frequency 90 & 49\,998,51 & 0,000\% & 0,000\% & 0,055\% & 0,055\% & 0,055\% & 0,055\% \\
+			Random đều & 51\,708,51 & 0,000\% & 0,000\% & 0,055\% & 0,055\% & 0,055\% & 0,055\% \\
+			XGBoost & 49\,685,78 & 0,000\% & 0,000\% & 0,000\% & 0,000\% & 0,000\% & 0,000\% \\
+			\bottomrule
+	\end{tabular}}
+\end{table}
+
+Nhìn theo toàn bộ dãy Top-1 đến Top-10, số ngày trúng giải Đặc biệt lần lượt là: CatBoost $(0,0,0,0,0,0,0,1,1,1)$; Expanding Frequency $(0,0,0,0,0,0,0,0,0,0)$; Markov $(0,0,0,0,0,0,0,1,1,1)$; Rolling Frequency 180 $(0,1,1,1,1,1,1,1,1,1)$; Rolling Frequency 30, 365, 730 và XGBoost đều bằng 0 ở mọi ngưỡng; Rolling Frequency 90 là $(0,0,0,0,0,0,0,0,0,1)$; Random đều là $(0,0,0,0,0,1,1,1,1,1)$. Như vậy, mô hình thống kê có kết quả tốt nhất ở ngưỡng Top-2 là Rolling Frequency 180, nhưng chỉ tạo ra một lần trúng duy nhất.
+
+\subsection{Lần trúng đầu tiên, lần trúng thứ hai và thời gian chờ}
+Bảng~\ref{tab:fixed-special-waiting} báo cáo lần trúng đầu tiên tại ngưỡng sớm nhất trong Top-1--Top-10. Thời gian chờ được tính theo số ngày lịch kể từ ngày 01/01/2021; ``lượt dự đoán'' là thứ tự của ngày kiểm tra có kết quả trúng. Không có mô hình nào có lần trúng thứ hai trong toàn bộ năm năm kiểm tra.
+
+\begin{table}[H]
+	\centering\small
+	\caption{Thời gian chờ đến các lần trúng giải Đặc biệt trên tập kiểm tra 2021--2025}
+	\label{tab:fixed-special-waiting}
+	\begin{tabularx}{\linewidth}{L{3.15cm}cL{2.5cm}cL{2.1cm}L{2.3cm}}
+		\toprule
+		Mô hình & Top sớm nhất & Ngày trúng đầu tiên & Chờ lịch & Lượt dự đoán & Lần thứ hai \\
+		\midrule
+		CatBoost & Top-8 & 15/04/2024 & 1\,200 & 1\,185 & Không có \\
+		Expanding Frequency & -- & -- & -- & -- & Không có \\
+		Markov & Top-8 & 09/08/2024 & 1\,316 & 1\,301 & Không có \\
+		Rolling Frequency 180 & Top-2 & 07/09/2021 & 249 & 246 & Không có \\
+		Rolling Frequency 30 & -- & -- & -- & -- & Không có \\
+		Rolling Frequency 365 & -- & -- & -- & -- & Không có \\
+		Rolling Frequency 730 & -- & -- & -- & -- & Không có \\
+		Rolling Frequency 90 & Top-10 & 31/12/2021 & 364 & 361 & Không có \\
+		Random đều & Top-6 & 23/05/2021 & 142 & 139 & Không có \\
+		XGBoost & -- & -- & -- & -- & Không có \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\subsection{ROI khi chỉ tính giải Đặc biệt}
+Nếu chỉ tính giải Đặc biệt, mọi cấu hình không có lần trúng đều có ROI bằng $-100\%$. Khi có đúng một lần trúng, ROI vẫn âm vì chi phí mua vé trong 1\,806 ngày lớn hơn khoản thưởng nhận được. Với Rolling Frequency 180, ROI chỉ giải Đặc biệt từ Top-1 đến Top-10 lần lượt là $-100,00\%$, $-30,79\%$, $-53,86\%$, $-65,39\%$, $-72,31\%$, $-76,93\%$, $-80,22\%$, $-82,70\%$, $-84,62\%$ và $-86,16\%$. Ở các mô hình còn lại, các ngưỡng không có lần trúng đều bằng $-100\%$; các ngưỡng có một lần trúng có cùng mức ROI theo số vé tương ứng. Không có cấu hình chỉ-Đặc biệt nào có ROI dương.
+
+\subsection{ROI khi tính toàn bộ cơ cấu giải thưởng}
+Bảng~\ref{tab:fixed-special-roi} trình bày ROI từ Top-1 đến Top-10 sau khi tính cả các giải thấp hơn. Đây là chỉ số phù hợp hơn với chiến thuật mua vé năm chữ số, vì một vé có thể nhận đồng thời nhiều giải theo các quy tắc khớp khác nhau.
+
+\begin{table}[H]
+	\centering\scriptsize
+	\caption{ROI toàn bộ giải thưởng theo số lượng vé mua mỗi ngày}
+	\label{tab:fixed-special-roi}
+	\resizebox{\linewidth}{!}{%
+		\begin{tabular}{lrrrrrrrrrr}
+			\toprule
+			Mô hình & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9 & T10 \\
+			\midrule
+			CatBoost & -80,51\% & -76,30\% & -77,59\% & -76,14\% & -77,81\% & -78,22\% & -77,74\% & -60,48\% & -62,77\% & -63,90\% \\
+			Expanding Frequency & -80,73\% & -79,18\% & -80,14\% & -80,01\% & -79,51\% & -79,92\% & -75,70\% & -72,01\% & -72,46\% & -73,33\% \\
+			Markov & -78,18\% & -78,96\% & -79,55\% & -79,51\% & -79,91\% & -80,36\% & -79,43\% & -62,10\% & -64,05\% & -65,42\% \\
+			Rolling Frequency 180 & -73,64\% & \textbf{-7,03\%} & -30,27\% & -34,19\% & -42,26\% & -48,87\% & -52,60\% & -55,92\% & -58,40\% & \textbf{-60,10\%} \\
+			Rolling Frequency 30 & -76,97\% & -76,91\% & -79,03\% & -69,60\% & -70,92\% & -71,52\% & -72,03\% & -69,13\% & -70,28\% & -71,06\% \\
+			Rolling Frequency 365 & -79,40\% & -79,84\% & -80,62\% & -80,40\% & -80,09\% & -70,86\% & -72,27\% & -72,79\% & -73,26\% & -73,71\% \\
+			Rolling Frequency 730 & -72,31\% & -70,21\% & -73,20\% & -73,89\% & -74,51\% & -74,60\% & -74,97\% & -74,54\% & -75,02\% & -75,32\% \\
+			Rolling Frequency 90 & -78,63\% & -77,63\% & -78,26\% & -77,71\% & -78,67\% & -77,02\% & -76,89\% & -76,95\% & -77,53\% & -63,26\% \\
+			Random đều & -75,53\% & -75,58\% & -76,71\% & -78,49\% & -78,43\% & -50,65\% & -53,90\% & -57,18\% & -59,86\% & -61,64\% \\
+			XGBoost & -76,19\% & -72,98\% & -74,34\% & -73,26\% & -73,53\% & -74,84\% & -75,26\% & -75,80\% & -75,72\% & -70,50\% \\
+			\bottomrule
+	\end{tabular}}
+\end{table}
+
+Cấu hình có ROI cao nhất trong toàn bộ 100 tổ hợp mô hình--ngưỡng là Rolling Frequency 180 với Top-2, đạt $-7,03\%$. Trong 1\,806 ngày, cấu hình này mua 3\,612 vé, có tổng chi phí 36,12 triệu VND và tổng tiền thưởng 33,58 triệu VND, tương ứng mức lỗ 2,54 triệu VND. Kết quả tốt nhất ở Top-10 cũng thuộc Rolling Frequency 180 với ROI $-60,10\%$: chi phí 180,60 triệu VND, tổng tiền thưởng 72,06 triệu VND và mức lỗ 108,54 triệu VND. Như vậy, việc tính thêm các giải thấp làm giảm mức lỗ so với chiến lược chỉ nhắm Đặc biệt, nhưng không tạo ra lợi nhuận dương.
+
+\subsection{Các giải khác khi mua Top-10}
+Bảng~\ref{tab:fixed-special-other-prizes} cho biết tỷ lệ ngày có trúng từng giải khác khi mua mười vé đứng đầu mỗi ngày. Các tỷ lệ này được tính trên 1\,806 ngày và phản ánh trực tiếp khả năng thu hồi một phần chi phí thông qua các giải thấp.
+
+\begin{table}[H]
+	\centering\scriptsize
+	\caption{Tỷ lệ ngày trúng các giải khác và tiền thưởng khi mua Top-10}
+	\label{tab:fixed-special-other-prizes}
+	\resizebox{\linewidth}{!}{%
+		\begin{tabular}{lrrrrrrrrr}
+			\toprule
+			Mô hình & G7 & G6 & G5 & G4 & G3 & G2 & G1 & Giải khác (VND) & ROI tổng \\
+			\midrule
+			CatBoost & 14,51\% & 1,05\% & 0,66\% & 0,22\% & 0,00\% & 0,00\% & 0,00\% & 40.200.000 & -63,90\% \\
+			Expanding Frequency & 16,00\% & 1,88\% & 0,22\% & 0,28\% & 0,06\% & 0,11\% & 0,00\% & 48.160.000 & -73,33\% \\
+			Markov & 15,23\% & 1,44\% & 0,39\% & 0,11\% & 0,06\% & 0,00\% & 0,00\% & 37.460.000 & -65,42\% \\
+			Rolling Frequency 180 & 13,68\% & 1,83\% & 1,11\% & 0,33\% & 0,06\% & 0,06\% & 0,00\% & 47.060.000 & -60,10\% \\
+			Rolling Frequency 30 & 14,67\% & 1,50\% & 0,61\% & 0,33\% & 0,11\% & 0,11\% & 0,00\% & 52.260.000 & -71,06\% \\
+			Rolling Frequency 365 & 13,73\% & 1,50\% & 0,61\% & 0,33\% & 0,00\% & 0,11\% & 0,00\% & 47.480.000 & -73,71\% \\
+			Rolling Frequency 730 & 11,41\% & 1,50\% & 0,55\% & 0,28\% & 0,06\% & 0,00\% & 0,00\% & 44.580.000 & -75,32\% \\
+			Rolling Frequency 90 & 13,51\% & 1,38\% & 0,55\% & 0,33\% & 0,11\% & 0,00\% & 0,00\% & 41.360.000 & -63,26\% \\
+			Random đều & 33,11\% & 2,60\% & 0,89\% & 0,39\% & 0,00\% & 0,06\% & 0,00\% & 44.280.000 & -61,64\% \\
+			XGBoost & 14,40\% & 1,88\% & 0,39\% & 0,33\% & 0,22\% & 0,00\% & 0,06\% & 53.280.000 & -70,50\% \\
+			\bottomrule
+	\end{tabular}}
+\end{table}
+
+Random đều có tỷ lệ ngày trúng giải Bảy cao hơn các mô hình còn lại, nhưng đây không phải là bằng chứng về khả năng dự báo giải Đặc biệt; nó phản ánh việc mua mười số ngẫu nhiên bao phủ nhiều hậu tố hai chữ số. XGBoost có tiền thưởng từ các giải khác tương đối lớn, nhưng ROI vẫn âm $70,50\%$ và không có lần trúng Đặc biệt trong Top-10. Kết quả này cho thấy các giải thấp có thể làm thay đổi mức lỗ quan sát được giữa các chiến lược, song không đảo ngược kết luận về hiệu quả kinh tế.
+
+\subsection{Đánh giá tổng hợp}
+Không có mô hình nào đồng thời đạt Top-1, có lần trúng Đặc biệt lặp lại và ROI dương. Lần trúng duy nhất ở một số cấu hình Top-$k$ không đủ để phân biệt mô hình với đường cơ sở Random, đặc biệt khi số ngày kiểm tra dài và có nhiều cấu hình được so sánh. Vì vậy, kết quả của giao thức 2021--2025 không cung cấp bằng chứng về một tín hiệu dự báo ổn định; nó củng cố việc xem giải Đặc biệt là mục tiêu ngẫu nhiên đối với chiến lược đầu tư.
 \section{Thiết kế chiến lược}
 P3 chuyển xác suất chữ số thành các pool năm vị trí, rồi sinh vé bằng tích Descartes. Ba cấu hình được kiểm thử là $2\times2\times2\times2\times2=32$ vé, $3\times2\times2\times2\times1=24$ vé và $3\times3\times2\times1\times1=18$ vé mỗi ngày. Một nhánh riêng tập trung vào giải Bảy: chọn các tiền tố đứng đầu ở ba vị trí đầu và thử $m=1,\ldots,10$ đuôi số đứng đầu ở hai vị trí cuối.
 
 Mỗi vé có giá 10.000 VND. Kết quả được đối sánh với toàn bộ 27 giải năm chữ số trong ngày; một vé có thể nhận nhiều giải hợp lệ. Mức trả trong code backtest là: Phụ Đặc biệt 25.000.000; Khuyến khích Đặc biệt 40.000; giải Nhất 10.000.000; Nhì 5.000.000; Ba 1.000.000; Tư 400.000; Năm 200.000; Sáu 100.000; Bảy 40.000 VND.
+
+Mức trả thưởng dùng trong code backtest không mô phỏng đầy đủ vé giải Đặc biệt 500 triệu VND kèm điều kiện ký hiệu $4/20$; vì vậy, các ROI thực nghiệm trong chương được hiểu là ROI của bài toán proxy khớp năm chữ số và các giải phụ được mã hóa.
 
 \section{Chia tập và chỉ số}
 Validation 2023--2024 dùng để so sánh ứng viên; final test 2025--2026 chỉ được mở một lần cho đánh giá cuối. Lợi nhuận ngày là
@@ -13,15 +213,15 @@ trong đó $G_t$ là tập giải vé nhận được, $R_g$ là tiền trả c�
 
 \section{Kết quả P3}
 \begin{table}[H]\centering\small
-\caption{Backtest các cấu hình pool năm chữ số}\label{tab:p3-summary}
-\begin{tabular}{llrrrr}\toprule
-Fold & Cấu hình & Số ngày & Số vé & Lợi nhuận (VND) & ROI\\\midrule
-Validation & 32 vé & 723 & 23136 & -143.600.000 & -62,07\%\\
-Validation & 24 vé & 723 & 17352 & -134.120.000 & -77,29\%\\
-Validation & 18 vé & 723 & 13014 & -104.580.000 & -80,36\%\\
-Final test & 32 vé & 606 & 19392 & -147.120.000 & -75,87\%\\
-Final test & 24 vé & 606 & 14544 & -110.000.000 & -75,63\%\\
-Final test & 18 vé & 606 & 10908 & -86.940.000 & -79,70\%\\\bottomrule
+	\caption{Backtest các cấu hình pool năm chữ số}\label{tab:p3-summary}
+	\begin{tabular}{llrrrr}\toprule
+		Fold & Cấu hình & Số ngày & Số vé & Lợi nhuận (VND) & ROI\\\midrule
+		Validation & 32 vé & 723 & 23136 & -143.600.000 & -62,07\%\\
+		Validation & 24 vé & 723 & 17352 & -134.120.000 & -77,29\%\\
+		Validation & 18 vé & 723 & 13014 & -104.580.000 & -80,36\%\\
+		Final test & 32 vé & 606 & 19392 & -147.120.000 & -75,87\%\\
+		Final test & 24 vé & 606 & 14544 & -110.000.000 & -75,63\%\\
+		Final test & 18 vé & 606 & 10908 & -86.940.000 & -79,70\%\\\bottomrule
 \end{tabular}\end{table}
 
 \begin{figure}[H]\centering\includegraphics[width=0.92\linewidth]{../artifacts/p3_strategies/cumulative_profit_validation_2023_2024.png}\caption{Lợi nhuận tích lũy của các pool trên validation.}\end{figure}
@@ -36,54 +236,3 @@ Kết quả theo $m$ được giữ lại như một thí nghiệm độ nhạy.
 
 \section{Diễn giải}
 Tất cả cấu hình đều có ROI âm trên cả hai giai đoạn. Cấu hình 32 vé có tỷ lệ ngày có ít nhất một lần trúng cao hơn, nhưng chi phí cũng lớn hơn và tổng lợi nhuận vẫn âm. Đây là bằng chứng trực tiếp rằng một cải thiện nhỏ về thứ hạng chữ số trong P2 không chuyển thành lợi thế kinh tế trong cơ chế trả thưởng được mô phỏng.
-
-\section{Thí nghiệm rolling năm năm đối với giải Đặc biệt}
-\subsection{Mục tiêu và giao thức}
-Sau khi các thí nghiệm P1--P3 không cho thấy lợi thế ổn định khi dự báo chữ số, một thí nghiệm riêng được thực hiện cho đúng mục tiêu ``đoán một số Đặc biệt gồm năm chữ số''. Với ngày dự đoán $t$, mô hình chỉ được sử dụng các kết quả Đặc biệt xuất hiện trước $t$ và nằm trong năm năm lịch liền trước. Như vậy, thông tin của tương lai không được sử dụng trong quá trình dự báo.
-
-Thí nghiệm được thực hiện trên dữ liệu từ ngày 01/01/2007 đến ngày 06/09/2026. Giai đoạn đánh giá bắt đầu từ ngày 01/01/2012, gồm 5.281 ngày có kết quả. Tám mô hình được so sánh gồm Random đều, Markov theo vị trí và các mô hình tần suất rolling với cửa sổ 30, 90, 180, 365, 730 và 1.825 ngày. Mỗi mô hình tạo danh sách Top-$m$, với $m=1,\ldots,10$, gồm các số năm chữ số có xác suất dự báo cao nhất. Các số có chữ số đầu bằng 0 vẫn được giữ nguyên dưới dạng chuỗi năm chữ số.
-
-Nếu lựa chọn ngẫu nhiên một số trong $100.000$ số có thể, xác suất trúng với Top-$m$ trong một ngày là
-\[
-p_m=\frac{m}{100\,000}.
-\]
-Do đó, số lần trúng kỳ vọng sau $N$ ngày là $Np_m$, còn xác suất có ít nhất một lần trúng là
-\[
-P_m(\text{ít nhất một lần trúng})=1-(1-p_m)^N.
-\]
-Các đại lượng này được dùng làm đường cơ sở để phân biệt một lần trúng ngẫu nhiên với bằng chứng về lợi thế dự báo.
-
-\subsection{Kết quả thời gian chờ}
-Bảng~\ref{tab:special-five-year-waiting} trình bày kết quả ở hai cấu hình có ý nghĩa thực tiễn nhất: chỉ mua một số đứng đầu và mua mười số đứng đầu mỗi ngày. ``Thời gian chờ'' được tính từ ngày bắt đầu dự đoán đến lần trúng đầu tiên; số lượt trong ngoặc là thứ tự ngày dự đoán có trúng.
-
-\begin{table}[H]
-\centering
-\small
-\caption{Thời gian chờ đến lần trúng Đặc biệt đầu tiên trong cửa sổ rolling năm năm}
-\label{tab:special-five-year-waiting}
-\begin{tabularx}{\linewidth}{L{3.25cm}ccL{2.65cm}L{2.85cm}r}
-\toprule
-Mô hình & Top-1 & Top-10 & Ngày trúng Top-10 & Chờ (ngày / lượt) & ROI Top-10 \\
-\midrule
-Markov 5 năm & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
-Tần suất 30 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
-Tần suất 90 ngày & 0/5.281 & 1/5.281 & 31/12/2021 & 3.652 / 3.591 & -95,27\%\\
-Tần suất 180 ngày & 0/5.281 & 1/5.281 & 07/09/2021 & 3.537 / 3.476 & -95,27\%\\
-Tần suất 365 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
-Tần suất 730 ngày & 0/5.281 & 0/5.281 & -- & -- & -100,00\%\\
-Tần suất 1.825 ngày & 0/5.281 & 1/5.281 & 07/10/2018 & 2.471 / 2.444 & -95,27\%\\
-Random đều & 0/5.281 & 1/5.281 & 23/05/2021 & 3.430 / 3.369 & -95,27\%\\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-Không có mô hình nào trúng Top-1 trong toàn bộ 5.281 ngày đánh giá. Với Top-10, ba mô hình tần suất và đường cơ sở Random đều mỗi mô hình chỉ trúng một lần; các mô hình còn lại không trúng. Trong cùng số ngày, Top-1 ngẫu nhiên có số lần trúng kỳ vọng $0,05281$ và xác suất có ít nhất một lần trúng khoảng $5,14\%$. Với Top-10, số lần trúng kỳ vọng là $0,52810$ và xác suất có ít nhất một lần trúng khoảng $41,03\%$. Vì vậy, việc một số mô hình Top-10 trúng một lần là hoàn toàn phù hợp với dao động ngẫu nhiên của đường cơ sở, chưa tạo thành bằng chứng về khả năng dự báo.
-
-\subsection{Hàm ý đối với chiến thuật đầu tư}
-Kết quả trên cho thấy việc tối ưu thứ hạng của một số Đặc biệt cụ thể không tạo ra lợi thế kinh tế. Nếu chỉ xét giải Đặc biệt, một vé có giá 10.000 VND có giá trị trả thưởng kỳ vọng
-\[
-\mathbb{E}[R]=\frac{25\,000\,000}{100\,000}=250\,\text{VND},
-\]
-suy ra lợi nhuận kỳ vọng là $250-10\,000=-9\,750$ VND/vé và ROI kỳ vọng là $-97,5\%$. Mua $m$ vé mỗi ngày làm chi phí tăng tuyến tính nhưng không thay đổi ROI kỳ vọng.
-
-Do đó, hướng nghiên cứu tiếp theo không tiếp tục tìm một ``số Đặc biệt chắc chắn'', mà chuyển sang đánh giá chiến thuật đầu tư dưới ngân sách cố định. Mỗi chiến thuật được khóa trên validation, sau đó đánh giá một lần trên final test. Các tiêu chí gồm tỷ lệ ngày có ít nhất một lần trúng, lợi nhuận tích lũy, ROI, thời gian hòa vốn và độ ổn định giữa các giai đoạn. Việc đối sánh phải sử dụng toàn bộ cơ cấu giải thưởng hợp lệ, vì các giải thấp và các dạng khớp một phần có thể làm thay đổi giá trị kỳ vọng so với chiến lược chỉ nhắm vào giải Đặc biệt.

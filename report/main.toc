@@ -40,21 +40,31 @@
 \contentsline {section}{\numberline {4.2}Các mô hình}{16}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Kết quả định lượng}{16}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Diễn giải và giới hạn}{19}{section.4.4}%
-\contentsline {chapter}{\numberline {5}CHIẾN LƯỢC VÀ BACKTEST}{20}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Thiết kế chiến lược}{20}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Chia tập và chỉ số}{20}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Kết quả P3}{21}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Chiến lược giải Bảy theo $m$}{22}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Diễn giải}{23}{section.5.5}%
-\contentsline {section}{\numberline {5.6}Thí nghiệm rolling năm năm đối với giải Đặc biệt}{24}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Mục tiêu và giao thức}{24}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Kết quả thời gian chờ}{24}{subsection.5.6.2}%
-\contentsline {subsection}{\numberline {5.6.3}Hàm ý đối với chiến thuật đầu tư}{25}{subsection.5.6.3}%
-\contentsline {chapter}{\numberline {6}KẾT QUẢ TỔNG HỢP VÀ THẢO LUẬN}{27}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Từ kiểm định đến dự báo}{27}{section.6.1}%
-\contentsline {section}{\numberline {6.2}So sánh mô hình}{27}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Ý nghĩa thực tiễn}{27}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Giải Đặc biệt và chuyển hướng sang bài toán đầu tư}{27}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Hạn chế}{28}{section.6.5}%
-\contentsline {chapter}{\numberline {7}KẾT LUẬN}{29}{chapter.7}%
-\contentsline {chapter}{TÀI LIỆU THAM KHẢO}{31}{chapter*.30}%
+\contentsline {section}{\numberline {4.5}Dự báo trực tiếp giải Đặc biệt}{20}{section.4.5}%
+\contentsline {chapter}{\numberline {5}CHIẾN LƯỢC VÀ BACKTEST}{21}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Độ khó của mục tiêu giải Đặc biệt}{21}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Thí nghiệm rolling năm năm đối với giải Đặc biệt}{22}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Mục tiêu và giao thức}{22}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Kết quả thời gian chờ}{23}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Hàm ý đối với chiến thuật đầu tư}{23}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Thí nghiệm cố định huấn luyện trước năm 2021 và kiểm tra năm 2021--2025}{24}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Thiết kế thực nghiệm}{24}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Chất lượng thứ hạng và tỷ lệ trúng giải Đặc biệt}{25}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Lần trúng đầu tiên, lần trúng thứ hai và thời gian chờ}{26}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}ROI khi chỉ tính giải Đặc biệt}{26}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}ROI khi tính toàn bộ cơ cấu giải thưởng}{27}{subsection.5.3.5}%
+\contentsline {subsection}{\numberline {5.3.6}Các giải khác khi mua Top-10}{27}{subsection.5.3.6}%
+\contentsline {subsection}{\numberline {5.3.7}Đánh giá tổng hợp}{28}{subsection.5.3.7}%
+\contentsline {section}{\numberline {5.4}Thiết kế chiến lược}{28}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Chia tập và chỉ số}{29}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Kết quả P3}{29}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Chiến lược giải Bảy theo $m$}{30}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Diễn giải}{32}{section.5.8}%
+\contentsline {chapter}{\numberline {6}KẾT QUẢ TỔNG HỢP VÀ THẢO LUẬN}{33}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Từ kiểm định đến dự báo}{33}{section.6.1}%
+\contentsline {section}{\numberline {6.2}So sánh mô hình}{33}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Ý nghĩa thực tiễn}{33}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Giải Đặc biệt và chuyển hướng sang bài toán đầu tư}{33}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Hạn chế}{35}{section.6.5}%
+\contentsline {chapter}{\numberline {7}KẾT LUẬN}{36}{chapter.7}%
+\contentsline {chapter}{TÀI LIỆU THAM KHẢO}{38}{chapter*.34}%

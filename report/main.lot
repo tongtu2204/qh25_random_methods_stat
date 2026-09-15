@@ -5,7 +5,11 @@
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {4.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Brier score và log loss trên validation 2023--2024}}{17}{table.caption.15}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Backtest các cấu hình pool năm chữ số}}{21}{table.caption.22}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thời gian chờ đến lần trúng Đặc biệt đầu tiên trong cửa sổ rolling năm năm}}{25}{table.caption.29}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thời gian chờ đến lần trúng Đặc biệt đầu tiên trong cửa sổ rolling năm năm}}{23}{table.caption.22}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thứ hạng và tỷ lệ trúng giải Đặc biệt trên tập kiểm tra 2021--2025}}{25}{table.caption.23}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Thời gian chờ đến các lần trúng giải Đặc biệt trên tập kiểm tra 2021--2025}}{26}{table.caption.24}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces ROI toàn bộ giải thưởng theo số lượng vé mua mỗi ngày}}{27}{table.caption.25}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Tỷ lệ ngày trúng các giải khác và tiền thưởng khi mua Top-10}}{28}{table.caption.26}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces \xpg@aux {}{vietnamese}\ignorespaces Backtest các cấu hình pool năm chữ số}}{29}{table.caption.27}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

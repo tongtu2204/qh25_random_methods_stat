@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.9.13)  15 SEP 2026 21:54
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.5) (preloaded format=xelatex 2026.9.13)  15 SEP 2026 22:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -997,42 +997,114 @@ pe bmp)
 File: ../artifacts/p2_models/figures/png/05_actual_digit_rank_cdf.png Graphic f
 ile (type bmp)
 <../artifacts/p2_models/figures/png/05_actual_digit_rank_cdf.png>
- [18]) [19]
+ [18] [19]) [20]
 \openout2 = `sections/05_chien_luoc_va_backtest.aux'.
 
  (sections/05_chien_luoc_va_backtest.tex
 Chương 5.
-[20
+[21
 
 
 
 
 
 ]
+Overfull \hbox (4.75414pt too wide) in paragraph at lines 24--25
+[]\TU/TimesNewRoman(0)/m/n/13 Thí nghiệm được thực hiện trên dữ liệu từ ngày 01
+/01/2007 đến ngày 06/09/2026.
+ []
+
+[22]
+Underfull \hbox (badness 10000) in alignment at lines 64--64
+[][][][][][] 
+ []
+
+[23] [24]
+Overfull \hbox (8.31343pt too wide) in paragraph at lines 112--113
+\TU/TimesNewRoman(0)/m/n/13 CatBoost $\OT1/cmr/m/n/12 (0\OML/cmm/m/it/12 ; \OT1
+/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/
+n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\
+OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm
+/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1)$\TU/TimesNewR
+oman(0)/m/n/13 ; Expanding Frequency $\OT1/cmr/m/n/12 (0\OML/cmm/m/it/12 ; \OT1
+/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/
+n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\
+OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm
+/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0)$\TU/TimesNewR
+oman(0)/m/n/13 ; Markov
+ []
+
+
+Overfull \hbox (16.98645pt too wide) in paragraph at lines 112--113
+\OT1/cmr/m/n/12 (0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/c
+mr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/
+12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OM
+L/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm/m
+/it/12 ; \OT1/cmr/m/n/12 1)$\TU/TimesNewRoman(0)/m/n/13 ; Rolling Frequency 180
+ $\OT1/cmr/m/n/12 (0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm/m/it/12 ; \OT1
+/cmr/m/n/12 1\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm/m/it/12 ; \OT1/cmr/m/
+n/12 1\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\
+OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1\OML/cmm
+/m/it/12 ; \OT1/cmr/m/n/12 1)$\TU/TimesNewRoman(0)/m/n/13 ; Rolling Frequency
+ []
+
+
+Overfull \hbox (67.67702pt too wide) in paragraph at lines 112--113
+\TU/TimesNewRoman(0)/m/n/13 30, 365, 730 và XGBoost đều bằng 0 ở mọi ngưỡng; Ro
+lling Frequency 90 là $\OT1/cmr/m/n/12 (0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\O
+ML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/
+m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12
+ ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1
+/cmr/m/n/12 0\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 1)$\TU/TimesNewRoman(0)/m/n/13 
+;
+ []
+
+[25]
+Underfull \hbox (badness 10000) in alignment at lines 136--136
+[][][][][][] 
+ []
+
+[26]
+LaTeX Font Info:    Calculating math sizes for size <8.66673> on input line 165
+.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <4.33336> not available
+(Font)              size <5> substituted on input line 165.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <4.33336> not available
+(Font)              size <5> substituted on input line 165.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <4.33336> not available
+(Font)              size <5> substituted on input line 165.
+
+[27] [28]
 File: ../artifacts/p3_strategies/cumulative_profit_validation_2023_2024.png Gra
 phic file (type bmp)
 <../artifacts/p3_strategies/cumulative_profit_validation_2023_2024.png>
 File: ../artifacts/p3_strategies/cumulative_profit_final_test_2025_2026.png Gra
 phic file (type bmp)
 <../artifacts/p3_strategies/cumulative_profit_final_test_2025_2026.png>
+ [29]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 230.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 30.
+(hyperref)                removing `math shift' on input line 230.
 
 File: ../artifacts/p3_strategies/g7_topm_prefix/cumulative_profit_validation_20
 23_2024.png Graphic file (type bmp)
 <../artifacts/p3_strategies/g7_topm_prefix/cumulative_profit_validation_2023_20
 24.png>
-[21]
 File: ../artifacts/p3_strategies/g7_topm_prefix/cumulative_profit_final_test_20
 25_2026.png Graphic file (type bmp)
 <../artifacts/p3_strategies/g7_topm_prefix/cumulative_profit_final_test_2025_20
 26.png>
+[30]
 File: ../artifacts/p3_strategies/g7_topm_prefix/profit_by_m_validation_2023_202
 4.png Graphic file (type bmp)
 <../artifacts/p3_strategies/g7_topm_prefix/profit_by_m_validation_2023_2024.png
@@ -1041,46 +1113,35 @@ File: ../artifacts/p3_strategies/g7_topm_prefix/profit_by_m_final_test_2025_202
 6.png Graphic file (type bmp)
 <../artifacts/p3_strategies/g7_topm_prefix/profit_by_m_final_test_2025_2026.png
 >
- [22] [23]
-Overfull \hbox (4.75414pt too wide) in paragraph at lines 44--45
-[]\TU/TimesNewRoman(0)/m/n/13 Thí nghiệm được thực hiện trên dữ liệu từ ngày 01
-/01/2007 đến ngày 06/09/2026.
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 77--77
-[][][][][][] 
- []
-
-[24]) [25] [26]
+ [31]) [32]
 \openout2 = `sections/06_ket_qua_tong_hop.aux'.
 
  (sections/06_ket_qua_tong_hop.tex
 Chương 6.
-[27
+[33
 
 
 
 
 
-]) [28]
+] [34]) [35]
 \openout2 = `sections/07_ket_luan.aux'.
 
  (sections/07_ket_luan.tex
 Chương 7.
 
-Overfull \hbox (1.66391pt too wide) in paragraph at lines 10--12
+Overfull \hbox (1.66391pt too wide) in paragraph at lines 10--11
 []\TU/TimesNewRoman(0)/m/n/13 Nghiên cứu không nhằm khuyến khích đặt cược, mà n
 hằm kiểm tra bằng phương
  []
 
-) [29
+[36
 
 
 
 
 
-] [30]
+]) [37]
 \openout2 = `sections/08_tai_lieu_tham_khao.aux'.
 
  (sections/08_tai_lieu_tham_khao.tex)
@@ -1101,7 +1162,7 @@ Overfull \hbox (8.1415pt too wide) in paragraph at lines 3--170
 pdate, GitHub, truy cập 09/2026.
  []
 
-[31
+[38
 
 
 
@@ -1124,15 +1185,15 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 72E133A441829CFA23CCF687F49F7CC0;12118.
+(rerunfilecheck)             Checksum: B482B6F32A47C4DA4FCAE4550171A8BF;15024.
  ) 
 Here is how much of TeX's memory you used:
- 18485 strings out of 402619
- 364071 string characters out of 5438862
- 866565 words of memory out of 5000000
- 47195 multiletter control sequences out of 15000+600000
- 637072 words of font info for 126 fonts, out of 8000000 for 9000
+ 18527 strings out of 402619
+ 365295 string characters out of 5438862
+ 878007 words of memory out of 5000000
+ 47229 multiletter control sequences out of 15000+600000
+ 639060 words of font info for 143 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 108i,10n,107p,710b,650s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 108i,10n,107p,894b,650s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (41 pages).
+Output written on main.pdf (48 pages).

@@ -11,7 +11,16 @@ Expanding Beta đứng đầu validation, trong khi CatBoost là mô hình học
 Lợi nhuận dương trong một giai đoạn không đủ chứng minh lợi thế dài hạn. Nếu kết quả không tái lập ở giai đoạn khác, kết luận phù hợp là hiệu năng chưa ổn định. Cần báo cáo khoảng tin cậy, nhiều giai đoạn rolling và số lần thử chiến lược.
 
 \section{Giải Đặc biệt và chuyển hướng sang bài toán đầu tư}
+Về mặt xác suất, vé giải Đặc biệt phải khớp đồng thời năm chữ số và một trong bốn ký hiệu được quay từ 20 ký hiệu. Do đó, xác suất lý thuyết của một vé khớp đầy đủ là
+\[
+\frac{1}{100\,000}\times\frac{4}{20}=\frac{1}{500\,000}=0{,}0002\%.
+\]
+Các kết quả thực nghiệm dưới đây chỉ quan sát phần năm chữ số vì dữ liệu chưa lưu trường ký hiệu; xác suất $1/500\,000$ được dùng để diễn giải đúng độ khó của giải thưởng đầy đủ.
 Thí nghiệm rolling năm năm cho mục tiêu chính xác một số Đặc biệt cung cấp một kiểm tra nghiêm ngặt hơn so với việc chỉ so sánh điểm số xác suất. Trong 5.281 ngày dự đoán, không mô hình nào trúng Top-1; ở Top-10, số lần trúng cao nhất chỉ bằng đúng một lần và đường cơ sở Random đều cũng đạt một lần. Kết quả này không cho thấy mô hình nào vượt qua xác suất nền.
+
+Giao thức cố định huấn luyện trước năm 2021 và kiểm tra trong giai đoạn 2021--2025 cho kết luận nhất quán trên một thiết kế dễ diễn giải hơn. Trong 1\,806 ngày kiểm tra, cả mười cấu hình đều có 0 lần trúng Top-1; số lần trúng Top-10 cao nhất cũng chỉ là 1. Rolling Frequency 180 đạt lần trúng đầu tiên ở Top-2 vào ngày 07/09/2021, nhưng không có lần trúng thứ hai. CatBoost và Markov chỉ bắt đầu có một lần trúng từ Top-8; Rolling Frequency 90 chỉ trúng ở Top-10; XGBoost không trúng trong Top-10. Do đó, việc bổ sung mô hình học máy không tạo ra cải thiện thực nghiệm rõ ràng so với các baseline thống kê.
+
+Khi tính toàn bộ cơ cấu giải thưởng, cấu hình tốt nhất là Rolling Frequency 180--Top-2 với ROI $-7,03\%$; khi chỉ tính giải Đặc biệt, ROI tương ứng vẫn âm. Ở Top-10, cấu hình tốt nhất là Rolling Frequency 180 với ROI $-60,10\%$, trong khi XGBoost đạt $-70,50\%$ và Random đều đạt $-61,64\%$. Các giải thấp, đặc biệt giải Bảy, giúp thu hồi một phần chi phí nhưng không tạo ra ROI dương cho bất kỳ mô hình nào.
 
 Về mặt phương pháp luận, dữ liệu không thể chứng minh mệnh đề tuyệt đối rằng mọi cơ chế sinh số là ngẫu nhiên. Tuy nhiên, với dữ liệu quan sát, các kiểm định thống kê, đánh giá walk-forward, so sánh với Random và kết quả lợi nhuận, giả thuyết phù hợp nhất là giải Đặc biệt không chứa tín hiệu ổn định có thể khai thác để dự báo. Vì vậy, trong phạm vi nghiên cứu này, giải Đặc biệt được xem là một biến ngẫu nhiên và không được sử dụng làm mục tiêu tối ưu hóa lợi nhuận riêng lẻ.
 
@@ -19,8 +28,8 @@ Kết luận này dẫn đến thay đổi mục tiêu của P3: thay vì cố d
 
 \section{Hạn chế}
 \begin{itemize}
-\item Cách định nghĩa mục tiêu theo 27 kết quả ảnh hưởng mạnh đến độ khó.
-\item Nhiều kiểm định và cấu hình làm tăng nguy cơ dương tính giả.
-\item Final test chỉ phản ánh dữ liệu đã thu thập đến thời điểm báo cáo.
-\item Lợi nhuận mẫu nhỏ có thể bị chi phối bởi một vài lần trúng.
+	\item Cách định nghĩa mục tiêu theo 27 kết quả ảnh hưởng mạnh đến độ khó.
+	\item Nhiều kiểm định và cấu hình làm tăng nguy cơ dương tính giả.
+	\item Final test chỉ phản ánh dữ liệu đã thu thập đến thời điểm báo cáo.
+	\item Lợi nhuận mẫu nhỏ có thể bị chi phối bởi một vài lần trúng.
 \end{itemize}

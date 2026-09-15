@@ -1,6 +1,6 @@
 \chapter{DỮ LIỆU VÀ QUY TRÌNH PHÂN TÍCH}
 \section{Dữ liệu}
-Dữ liệu gồm 191\,511 dòng kết quả, 7\,093 ngày, từ 01/01/2007 đến 06/09/2026. Tập dữ liệu bao phủ 27 giải mỗi ngày, gồm Đặc biệt, giải Nhất đến giải Bảy. Kết quả được chuẩn hóa theo ngày, giải và vị trí; các chuỗi ngắn được bổ sung số 0 ở đầu để bảo toàn độ dài. Hai chữ số cuối được giữ trong miền $00,\ldots,99$.
+Dữ liệu gồm 191\,511 dòng kết quả, 7\,093 ngày, từ 01/01/2007 đến 06/09/2026. Tập dữ liệu bao phủ 27 giải mỗi ngày, gồm Đặc biệt, giải Nhất đến giải Bảy. Kết quả được chuẩn hóa theo ngày, loại giải và thứ tự xuất hiện, nhưng vẫn giữ nguyên độ dài công bố của từng giải. Cụ thể, các giải Sáu và Bảy không được biến đổi thành chuỗi năm chữ số khi xây dựng mục tiêu, kiểm định hoặc mô hình; các quy tắc khớp hai, ba và bốn chữ số được xử lý riêng ở bước backtest. Hai chữ số cuối được giữ trong miền $00,\ldots,99$.
 
 \section{Quy tắc trả thưởng và mục tiêu thực nghiệm}
 Mỗi vé được biểu diễn bởi một số có năm chữ số. Giải Đặc biệt, giải Nhất, Nhì và Ba yêu cầu khớp đủ năm chữ số; giải Tư và Năm khớp bốn chữ số; giải Sáu khớp ba chữ số; giải Bảy khớp hai chữ số. Phụ Đặc biệt và Khuyến khích Đặc biệt được xử lý theo quy định riêng, trong đó ký hiệu của giải Đặc biệt không được dùng làm đặc trưng dự báo. Một vé có thể đồng thời nhận nhiều giải khi các điều kiện hậu tố cùng thỏa mãn.
@@ -9,17 +9,17 @@ Mục tiêu được chia thành hai lớp: (i) dự báo pool chữ số theo t
 
 \section{Quy trình}
 \begin{enumerate}
-\item Kiểm tra ngày, bản ghi trùng và tính hợp lệ.
-\item Tách chữ số theo vị trí và tạo biến đuôi số.
-\item Phân tích phân phối, độc lập theo vị trí và phụ thuộc thời gian.
-\item Kiểm tra ổn định theo các giai đoạn.
-\item Tạo mục tiêu theo ngày: chữ số bằng 1 nếu xuất hiện trong ít nhất một của 27 kết quả.
-\item Huấn luyện/cập nhật mô hình theo walk-forward.
-\item Đánh giá Brier, log loss, top-$k$, calibration, thứ hạng và lợi nhuận.
+	\item Kiểm tra ngày, bản ghi trùng và tính hợp lệ.
+	\item Tách chữ số theo vị trí và tạo biến đuôi số.
+	\item Phân tích phân phối, độc lập theo vị trí và phụ thuộc thời gian.
+	\item Kiểm tra ổn định theo các giai đoạn.
+	\item Tạo mục tiêu theo ngày: chữ số bằng 1 nếu xuất hiện trong ít nhất một của 27 kết quả.
+	\item Huấn luyện/cập nhật mô hình theo walk-forward.
+	\item Đánh giá Brier, log loss, top-$k$, calibration, thứ hạng và lợi nhuận.
 \end{enumerate}
 
 \section{Chống rò rỉ thông tin}
-Dự báo ngày $t$ chỉ sử dụng dữ liệu trước $t$; kết quả ngày $t$ chỉ cập nhật mô hình sau khi dự báo được tạo. Validation 2023--2024 dùng để so sánh và khóa cấu hình. Final test 2025--2026 chỉ dùng cho đánh giá cuối cùng và không được dùng để chọn lại mô hình hay chiến lược.
+Dự báo ngày $t$ chỉ sử dụng dữ liệu trước $t$; kết quả ngày $t$ chỉ cập nhật mô hình sau khi dự báo được tạo. Validation 2023--2024 dùng để so sánh và khóa cấu hình. Final test 2025--2026 chỉ dùng cho đánh giá cuối cùng và không được dùng để chọn lại mô hình hay chiến lược. Riêng thí nghiệm dự báo trực tiếp giải Đặc biệt được thiết kế theo giao thức độc lập: toàn bộ mô hình học máy được huấn luyện cố định bằng dữ liệu đến hết ngày 31/12/2020, sau đó đánh giá trên giai đoạn 2021--2025; các mô hình thống kê được cập nhật tuần tự nhưng tại mỗi ngày chỉ sử dụng lịch sử trước ngày đó.
 
 \section{Tái lập}
 Mã nguồn nằm trong \texttt{experiments/}; kết quả được tổ chức tương ứng trong \texttt{artifacts/p1\_statistical\_tests/}, \texttt{artifacts/p2\_models/} và \texttt{artifacts/p3\_strategies/}.
